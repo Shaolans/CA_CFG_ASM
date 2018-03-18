@@ -1,0 +1,1318 @@
+Le programme a 366 lignes
+
+Contenu du programme:
+.file	1 "test_asm3.c"
+.section	.mdebug.abi32
+.previous	
+.gnu_attribute	4,1
+.text	
+.align	2
+.global	sum
+.set	nomips16
+.ent	sum
+sum:
+.frame	$30,16,$31
+.mask	1073741824,-4
+.fmask	0,0
+.set	noreorder
+.set	nomacro
+addiu $29,$29,65520
+sw $30,12($29)
+or $30,$29,$0
+sw $4,16($30)
+sw $5,20($30)
+sw $6,24($30)
+sw $7,28($30)
+sw $0,0($30)
+j $l2
+add $0,$0,$0
+$l3:
+lw $2,0($30)
+sll $3,$2,2
+lw $2,24($30)
+addu $5,$2,$3
+lw $2,0($30)
+sll $3,$2,2
+lw $2,16($30)
+addu $2,$2,$3
+lw $4,0($2)
+lw $2,0($30)
+sll $3,$2,2
+lw $2,20($30)
+addu $2,$2,$3
+lw $2,0($2)
+addu $2,$4,$2
+sw $2,0($5)
+lw $2,0($30)
+addiu $2,$2,1
+sw $2,0($30)
+$l2:
+lw $2,0($30)
+lw $3,28($30)
+slt $2,$2,$3
+bne $2,$0,$l3
+add $0,$0,$0
+or $29,$30,$0
+lw $30,12($29)
+addiu $29,$29,16
+jr $31
+add $0,$0,$0
+.set	macro
+.set	reorder
+.end	sum
+.size	sum,.-sum
+.align	2
+.global	max_min_tab
+.set	nomips16
+.ent	max_min_tab
+max_min_tab:
+.frame	$30,16,$31
+.mask	1073741824,-4
+.fmask	0,0
+.set	noreorder
+.set	nomacro
+addiu $29,$29,65520
+sw $30,12($29)
+or $30,$29,$0
+sw $4,16($30)
+sw $5,20($30)
+sw $6,24($30)
+sw $7,28($30)
+sw $0,0($30)
+j $l6
+add $0,$0,$0
+$l9:
+lw $2,0($30)
+sll $3,$2,2
+lw $2,16($30)
+addu $2,$2,$3
+lw $4,0($2)
+lw $2,0($30)
+sll $3,$2,2
+lw $2,20($30)
+addu $2,$2,$3
+lw $2,0($2)
+slt $2,$4,$2
+beq $2,$0,$l7
+add $0,$0,$0
+lw $2,0($30)
+sll $3,$2,2
+lw $2,24($30)
+addu $4,$2,$3
+lw $2,0($30)
+sll $3,$2,2
+lw $2,20($30)
+addu $2,$2,$3
+lw $2,0($2)
+sw $2,0($4)
+lw $2,0($30)
+sll $3,$2,2
+lw $2,28($30)
+addu $4,$2,$3
+lw $2,0($30)
+sll $3,$2,2
+lw $2,16($30)
+addu $2,$2,$3
+lw $2,0($2)
+sw $2,0($4)
+j $l8
+add $0,$0,$0
+$l7:
+lw $2,0($30)
+sll $3,$2,2
+lw $2,24($30)
+addu $4,$2,$3
+lw $2,0($30)
+sll $3,$2,2
+lw $2,16($30)
+addu $2,$2,$3
+lw $2,0($2)
+sw $2,0($4)
+lw $2,0($30)
+sll $3,$2,2
+lw $2,28($30)
+addu $4,$2,$3
+lw $2,0($30)
+sll $3,$2,2
+lw $2,20($30)
+addu $2,$2,$3
+lw $2,0($2)
+sw $2,0($4)
+$l8:
+lw $2,0($30)
+addiu $2,$2,1
+sw $2,0($30)
+$l6:
+lw $2,0($30)
+lw $3,32($30)
+slt $2,$2,$3
+bne $2,$0,$l9
+add $0,$0,$0
+or $2,$0,$0
+or $29,$30,$0
+lw $30,12($29)
+addiu $29,$29,16
+jr $31
+add $0,$0,$0
+.set	macro
+.set	reorder
+.end	max_min_tab
+.size	max_min_tab,.-max_min_tab
+.align	2
+.global	mat_mul
+.set	nomips16
+.ent	mat_mul
+mat_mul:
+.frame	$30,24,$31
+.mask	1073741824,-4
+.fmask	0,0
+.set	noreorder
+.set	nomacro
+addiu $29,$29,65512
+sw $30,20($29)
+or $30,$29,$0
+sw $4,24($30)
+sw $5,28($30)
+sw $6,32($30)
+sw $0,8($30)
+j $l12
+add $0,$0,$0
+$l15:
+sw $0,4($30)
+j $l13
+add $0,$0,$0
+$l14:
+lw $2,8($30)
+sll $3,$2,3
+sll $2,$3,2
+addu $3,$3,$2
+lw $2,32($30)
+addu $3,$2,$3
+lw $2,4($30)
+sll $2,$2,2
+addu $2,$3,$2
+sw $0,0($2)
+lw $2,8($30)
+addiu $2,$2,1
+sw $2,8($30)
+$l13:
+lw $2,8($30)
+slti $2,$2,10
+bne $2,$0,$l14
+add $0,$0,$0
+lw $2,8($30)
+addiu $2,$2,1
+sw $2,8($30)
+$l12:
+lw $2,8($30)
+slti $2,$2,10
+bne $2,$0,$l15
+add $0,$0,$0
+sw $0,8($30)
+j $l16
+add $0,$0,$0
+$l21:
+sw $0,4($30)
+j $l17
+add $0,$0,$0
+$l20:
+sw $0,0($30)
+j $l18
+add $0,$0,$0
+$l19:
+lw $2,8($30)
+sll $3,$2,3
+sll $2,$3,2
+addu $3,$3,$2
+lw $2,32($30)
+addu $4,$2,$3
+lw $5,4($30)
+lw $2,8($30)
+sll $3,$2,3
+sll $2,$3,2
+addu $3,$3,$2
+lw $2,32($30)
+addu $3,$2,$3
+lw $2,4($30)
+sll $2,$2,2
+addu $2,$3,$2
+lw $6,0($2)
+lw $2,8($30)
+sll $3,$2,3
+sll $2,$3,2
+addu $3,$3,$2
+lw $2,24($30)
+addu $3,$2,$3
+lw $2,0($30)
+sll $2,$2,2
+addu $2,$3,$2
+lw $7,0($2)
+lw $2,0($30)
+sll $3,$2,3
+sll $2,$3,2
+addu $3,$3,$2
+lw $2,28($30)
+addu $3,$2,$3
+lw $2,4($30)
+sll $2,$2,2
+addu $2,$3,$2
+lw $2,0($2)
+mul $2,$7,$2
+addu $3,$6,$2
+sll $2,$5,2
+addu $2,$4,$2
+sw $3,0($2)
+lw $2,8($30)
+addiu $2,$2,1
+sw $2,8($30)
+$l18:
+lw $2,8($30)
+slti $2,$2,10
+bne $2,$0,$l19
+add $0,$0,$0
+lw $2,8($30)
+addiu $2,$2,1
+sw $2,8($30)
+$l17:
+lw $2,8($30)
+slti $2,$2,10
+bne $2,$0,$l20
+add $0,$0,$0
+lw $2,8($30)
+addiu $2,$2,1
+sw $2,8($30)
+$l16:
+lw $2,8($30)
+slti $2,$2,10
+bne $2,$0,$l21
+add $0,$0,$0
+.set	noat
+lui $1,0
+ori $2,$1,1
+.set	at
+or $29,$30,$0
+lw $30,20($29)
+addiu $29,$29,24
+jr $31
+add $0,$0,$0
+.set	macro
+.set	reorder
+.end	mat_mul
+.size	mat_mul,.-mat_mul
+.rdata	
+.align	2
+$lc0:
+.ascii	"%d\012\000"
+.text	
+.align	2
+.global	main
+.set	nomips16
+.ent	main
+main:
+.frame	$30,32,$31
+.mask	3221225472,-4
+.fmask	0,0
+.set	noreorder
+.set	nomacro
+addiu $29,$29,65504
+sw $31,28($29)
+sw $30,24($29)
+or $30,$29,$0
+sw $4,32($30)
+sw $5,36($30)
+lui $2,%hi(a)
+addiu $4,$2,%lo(a)
+lui $2,%hi(b)
+addiu $5,$2,%lo(b)
+lui $2,%hi(c)
+addiu $6,$2,%lo(c)
+.set	noat
+lui $1,0
+ori $7,$1,10
+.set	at
+jal sum
+add $0,$0,$0
+.set	noat
+lui $1,0
+ori $2,$1,10
+.set	at
+sw $2,16($29)
+lui $2,%hi(a)
+addiu $4,$2,%lo(a)
+lui $2,%hi(b)
+addiu $5,$2,%lo(b)
+lui $2,%hi(c)
+addiu $6,$2,%lo(c)
+lui $2,%hi(d)
+addiu $7,$2,%lo(d)
+jal max_min_tab
+add $0,$0,$0
+or $3,$2,$0
+lui $2,%hi($lc0)
+addiu $4,$2,%lo($lc0)
+or $5,$3,$0
+jal printf
+add $0,$0,$0
+or $2,$0,$0
+or $29,$30,$0
+lw $31,28($29)
+lw $30,24($29)
+addiu $29,$29,32
+jr $31
+add $0,$0,$0
+.set	macro
+.set	reorder
+.end	main
+.size	main,.-main
+.comm	c,40,4
+.comm	d,40,4
+.ident	 "gcc: (gnu) 4.3.2"
+
+
+ Calcul des fonctions des block de base et restitution
+
+nombre de fonctions : 4
+FONCTION 0
+comput BB
+ head:.ent	sum
+ tail:.end	sum
+addiu $29,$29,65520
+end comput Basic Block
+Affichage des blocs de base 
+Begin BB
+sum:
+i0 addiu $29,$29,65520
+i1 sw $30,12($29)
+i2 or $30,$29,$0
+i3 sw $4,16($30)
+i4 sw $5,20($30)
+i5 sw $6,24($30)
+i6 sw $7,28($30)
+i7 sw $0,0($30)
+i8 j $l2
+i9 add $0,$0,$0
+End BB
+Begin BB
+$l3:
+i0 lw $2,0($30)
+i1 sll $3,$2,2
+i2 lw $2,24($30)
+i3 addu $5,$2,$3
+i4 lw $2,0($30)
+i5 sll $3,$2,2
+i6 lw $2,16($30)
+i7 addu $2,$2,$3
+i8 lw $4,0($2)
+i9 lw $2,0($30)
+i10 sll $3,$2,2
+i11 lw $2,20($30)
+i12 addu $2,$2,$3
+i13 lw $2,0($2)
+i14 addu $2,$4,$2
+i15 sw $2,0($5)
+i16 lw $2,0($30)
+i17 addiu $2,$2,1
+i18 sw $2,0($30)
+End BB
+Begin BB
+$l2:
+i0 lw $2,0($30)
+i1 lw $3,28($30)
+i2 slt $2,$2,$3
+i3 bne $2,$0,$l3
+i4 add $0,$0,$0
+End BB
+Begin BB
+i0 or $29,$30,$0
+i1 lw $30,12($29)
+i2 addiu $29,$29,16
+i3 jr $31
+i4 add $0,$0,$0
+End BB
+test du BB 0
+Begin BB
+sum:
+i0 addiu $29,$29,65520
+i1 sw $30,12($29)
+i2 or $30,$29,$0
+i3 sw $4,16($30)
+i4 sw $5,20($30)
+i5 sw $6,24($30)
+i6 sw $7,28($30)
+i7 sw $0,0($30)
+i8 j $l2
+i9 add $0,$0,$0
+End BB
+nb de successeur : 1
+succ1 : 2
+nb de predecesseurs : 0
+
+test du BB 1
+Begin BB
+$l3:
+i0 lw $2,0($30)
+i1 sll $3,$2,2
+i2 lw $2,24($30)
+i3 addu $5,$2,$3
+i4 lw $2,0($30)
+i5 sll $3,$2,2
+i6 lw $2,16($30)
+i7 addu $2,$2,$3
+i8 lw $4,0($2)
+i9 lw $2,0($30)
+i10 sll $3,$2,2
+i11 lw $2,20($30)
+i12 addu $2,$2,$3
+i13 lw $2,0($2)
+i14 addu $2,$4,$2
+i15 sw $2,0($5)
+i16 lw $2,0($30)
+i17 addiu $2,$2,1
+i18 sw $2,0($30)
+End BB
+nb de successeur : 1
+succ1 : 2
+nb de predecesseurs : 1
+pred 0 : 2; 
+test du BB 2
+Begin BB
+$l2:
+i0 lw $2,0($30)
+i1 lw $3,28($30)
+i2 slt $2,$2,$3
+i3 bne $2,$0,$l3
+i4 add $0,$0,$0
+End BB
+nb de successeur : 2
+succ1 : 1 succ2 : 3
+nb de predecesseurs : 2
+pred 0 : 0; pred 1 : 1; 
+test du BB 3
+Begin BB
+i0 or $29,$30,$0
+i1 lw $30,12($29)
+i2 addiu $29,$29,16
+i3 jr $31
+i4 add $0,$0,$0
+End BB
+nb de successeur : 0
+
+nb de predecesseurs : 1
+pred 0 : 2; 
+Dominants pour BB0 : 
+Dominants pour BB1 : 
+Dominants pour BB2 : 
+Dominants pour BB3 : 
+------------Function 1/4 DISPLAY----------
+
+tmp/cfg_graph_test_asm32_0.dot
+test vaut 0 
+FONCTION 1
+comput BB
+ head:.ent	max_min_tab
+ tail:.end	max_min_tab
+addiu $29,$29,65520
+end comput Basic Block
+Affichage des blocs de base 
+Begin BB
+max_min_tab:
+i0 addiu $29,$29,65520
+i1 sw $30,12($29)
+i2 or $30,$29,$0
+i3 sw $4,16($30)
+i4 sw $5,20($30)
+i5 sw $6,24($30)
+i6 sw $7,28($30)
+i7 sw $0,0($30)
+i8 j $l6
+i9 add $0,$0,$0
+End BB
+Begin BB
+$l9:
+i0 lw $2,0($30)
+i1 sll $3,$2,2
+i2 lw $2,16($30)
+i3 addu $2,$2,$3
+i4 lw $4,0($2)
+i5 lw $2,0($30)
+i6 sll $3,$2,2
+i7 lw $2,20($30)
+i8 addu $2,$2,$3
+i9 lw $2,0($2)
+i10 slt $2,$4,$2
+i11 beq $2,$0,$l7
+i12 add $0,$0,$0
+End BB
+Begin BB
+i0 lw $2,0($30)
+i1 sll $3,$2,2
+i2 lw $2,24($30)
+i3 addu $4,$2,$3
+i4 lw $2,0($30)
+i5 sll $3,$2,2
+i6 lw $2,20($30)
+i7 addu $2,$2,$3
+i8 lw $2,0($2)
+i9 sw $2,0($4)
+i10 lw $2,0($30)
+i11 sll $3,$2,2
+i12 lw $2,28($30)
+i13 addu $4,$2,$3
+i14 lw $2,0($30)
+i15 sll $3,$2,2
+i16 lw $2,16($30)
+i17 addu $2,$2,$3
+i18 lw $2,0($2)
+i19 sw $2,0($4)
+i20 j $l8
+i21 add $0,$0,$0
+End BB
+Begin BB
+$l7:
+i0 lw $2,0($30)
+i1 sll $3,$2,2
+i2 lw $2,24($30)
+i3 addu $4,$2,$3
+i4 lw $2,0($30)
+i5 sll $3,$2,2
+i6 lw $2,16($30)
+i7 addu $2,$2,$3
+i8 lw $2,0($2)
+i9 sw $2,0($4)
+i10 lw $2,0($30)
+i11 sll $3,$2,2
+i12 lw $2,28($30)
+i13 addu $4,$2,$3
+i14 lw $2,0($30)
+i15 sll $3,$2,2
+i16 lw $2,20($30)
+i17 addu $2,$2,$3
+i18 lw $2,0($2)
+i19 sw $2,0($4)
+End BB
+Begin BB
+$l8:
+i0 lw $2,0($30)
+i1 addiu $2,$2,1
+i2 sw $2,0($30)
+End BB
+Begin BB
+$l6:
+i0 lw $2,0($30)
+i1 lw $3,32($30)
+i2 slt $2,$2,$3
+i3 bne $2,$0,$l9
+i4 add $0,$0,$0
+End BB
+Begin BB
+i0 or $2,$0,$0
+i1 or $29,$30,$0
+i2 lw $30,12($29)
+i3 addiu $29,$29,16
+i4 jr $31
+i5 add $0,$0,$0
+End BB
+test du BB 0
+Begin BB
+max_min_tab:
+i0 addiu $29,$29,65520
+i1 sw $30,12($29)
+i2 or $30,$29,$0
+i3 sw $4,16($30)
+i4 sw $5,20($30)
+i5 sw $6,24($30)
+i6 sw $7,28($30)
+i7 sw $0,0($30)
+i8 j $l6
+i9 add $0,$0,$0
+End BB
+nb de successeur : 1
+succ1 : 5
+nb de predecesseurs : 0
+
+test du BB 1
+Begin BB
+$l9:
+i0 lw $2,0($30)
+i1 sll $3,$2,2
+i2 lw $2,16($30)
+i3 addu $2,$2,$3
+i4 lw $4,0($2)
+i5 lw $2,0($30)
+i6 sll $3,$2,2
+i7 lw $2,20($30)
+i8 addu $2,$2,$3
+i9 lw $2,0($2)
+i10 slt $2,$4,$2
+i11 beq $2,$0,$l7
+i12 add $0,$0,$0
+End BB
+nb de successeur : 2
+succ1 : 3 succ2 : 2
+nb de predecesseurs : 1
+pred 0 : 5; 
+test du BB 2
+Begin BB
+i0 lw $2,0($30)
+i1 sll $3,$2,2
+i2 lw $2,24($30)
+i3 addu $4,$2,$3
+i4 lw $2,0($30)
+i5 sll $3,$2,2
+i6 lw $2,20($30)
+i7 addu $2,$2,$3
+i8 lw $2,0($2)
+i9 sw $2,0($4)
+i10 lw $2,0($30)
+i11 sll $3,$2,2
+i12 lw $2,28($30)
+i13 addu $4,$2,$3
+i14 lw $2,0($30)
+i15 sll $3,$2,2
+i16 lw $2,16($30)
+i17 addu $2,$2,$3
+i18 lw $2,0($2)
+i19 sw $2,0($4)
+i20 j $l8
+i21 add $0,$0,$0
+End BB
+nb de successeur : 1
+succ1 : 4
+nb de predecesseurs : 1
+pred 0 : 1; 
+test du BB 3
+Begin BB
+$l7:
+i0 lw $2,0($30)
+i1 sll $3,$2,2
+i2 lw $2,24($30)
+i3 addu $4,$2,$3
+i4 lw $2,0($30)
+i5 sll $3,$2,2
+i6 lw $2,16($30)
+i7 addu $2,$2,$3
+i8 lw $2,0($2)
+i9 sw $2,0($4)
+i10 lw $2,0($30)
+i11 sll $3,$2,2
+i12 lw $2,28($30)
+i13 addu $4,$2,$3
+i14 lw $2,0($30)
+i15 sll $3,$2,2
+i16 lw $2,20($30)
+i17 addu $2,$2,$3
+i18 lw $2,0($2)
+i19 sw $2,0($4)
+End BB
+nb de successeur : 1
+succ1 : 4
+nb de predecesseurs : 1
+pred 0 : 1; 
+test du BB 4
+Begin BB
+$l8:
+i0 lw $2,0($30)
+i1 addiu $2,$2,1
+i2 sw $2,0($30)
+End BB
+nb de successeur : 1
+succ1 : 5
+nb de predecesseurs : 2
+pred 0 : 2; pred 1 : 3; 
+test du BB 5
+Begin BB
+$l6:
+i0 lw $2,0($30)
+i1 lw $3,32($30)
+i2 slt $2,$2,$3
+i3 bne $2,$0,$l9
+i4 add $0,$0,$0
+End BB
+nb de successeur : 2
+succ1 : 1 succ2 : 6
+nb de predecesseurs : 2
+pred 0 : 0; pred 1 : 4; 
+test du BB 6
+Begin BB
+i0 or $2,$0,$0
+i1 or $29,$30,$0
+i2 lw $30,12($29)
+i3 addiu $29,$29,16
+i4 jr $31
+i5 add $0,$0,$0
+End BB
+nb de successeur : 0
+
+nb de predecesseurs : 1
+pred 0 : 5; 
+Dominants pour BB0 : 
+Dominants pour BB1 : 
+Dominants pour BB2 : 
+Dominants pour BB3 : 
+Dominants pour BB4 : 
+Dominants pour BB5 : 
+Dominants pour BB6 : 
+------------Function 2/4 DISPLAY----------
+
+tmp/cfg_graph_test_asm32_1.dot
+test vaut 0 
+FONCTION 2
+comput BB
+ head:.ent	mat_mul
+ tail:.end	mat_mul
+addiu $29,$29,65512
+end comput Basic Block
+Affichage des blocs de base 
+Begin BB
+mat_mul:
+i0 addiu $29,$29,65512
+i1 sw $30,20($29)
+i2 or $30,$29,$0
+i3 sw $4,24($30)
+i4 sw $5,28($30)
+i5 sw $6,32($30)
+i6 sw $0,8($30)
+i7 j $l12
+i8 add $0,$0,$0
+End BB
+Begin BB
+$l15:
+i0 sw $0,4($30)
+i1 j $l13
+i2 add $0,$0,$0
+End BB
+Begin BB
+$l14:
+i0 lw $2,8($30)
+i1 sll $3,$2,3
+i2 sll $2,$3,2
+i3 addu $3,$3,$2
+i4 lw $2,32($30)
+i5 addu $3,$2,$3
+i6 lw $2,4($30)
+i7 sll $2,$2,2
+i8 addu $2,$3,$2
+i9 sw $0,0($2)
+i10 lw $2,8($30)
+i11 addiu $2,$2,1
+i12 sw $2,8($30)
+End BB
+Begin BB
+$l13:
+i0 lw $2,8($30)
+i1 slti $2,$2,10
+i2 bne $2,$0,$l14
+i3 add $0,$0,$0
+End BB
+Begin BB
+i0 lw $2,8($30)
+i1 addiu $2,$2,1
+i2 sw $2,8($30)
+End BB
+Begin BB
+$l12:
+i0 lw $2,8($30)
+i1 slti $2,$2,10
+i2 bne $2,$0,$l15
+i3 add $0,$0,$0
+End BB
+Begin BB
+i0 sw $0,8($30)
+i1 j $l16
+i2 add $0,$0,$0
+End BB
+Begin BB
+$l21:
+i0 sw $0,4($30)
+i1 j $l17
+i2 add $0,$0,$0
+End BB
+Begin BB
+$l20:
+i0 sw $0,0($30)
+i1 j $l18
+i2 add $0,$0,$0
+End BB
+Begin BB
+$l19:
+i0 lw $2,8($30)
+i1 sll $3,$2,3
+i2 sll $2,$3,2
+i3 addu $3,$3,$2
+i4 lw $2,32($30)
+i5 addu $4,$2,$3
+i6 lw $5,4($30)
+i7 lw $2,8($30)
+i8 sll $3,$2,3
+i9 sll $2,$3,2
+i10 addu $3,$3,$2
+i11 lw $2,32($30)
+i12 addu $3,$2,$3
+i13 lw $2,4($30)
+i14 sll $2,$2,2
+i15 addu $2,$3,$2
+i16 lw $6,0($2)
+i17 lw $2,8($30)
+i18 sll $3,$2,3
+i19 sll $2,$3,2
+i20 addu $3,$3,$2
+i21 lw $2,24($30)
+i22 addu $3,$2,$3
+i23 lw $2,0($30)
+i24 sll $2,$2,2
+i25 addu $2,$3,$2
+i26 lw $7,0($2)
+i27 lw $2,0($30)
+i28 sll $3,$2,3
+i29 sll $2,$3,2
+i30 addu $3,$3,$2
+i31 lw $2,28($30)
+i32 addu $3,$2,$3
+i33 lw $2,4($30)
+i34 sll $2,$2,2
+i35 addu $2,$3,$2
+i36 lw $2,0($2)
+i37 mul $2,$7,$2
+i38 addu $3,$6,$2
+i39 sll $2,$5,2
+i40 addu $2,$4,$2
+i41 sw $3,0($2)
+i42 lw $2,8($30)
+i43 addiu $2,$2,1
+i44 sw $2,8($30)
+End BB
+Begin BB
+$l18:
+i0 lw $2,8($30)
+i1 slti $2,$2,10
+i2 bne $2,$0,$l19
+i3 add $0,$0,$0
+End BB
+Begin BB
+i0 lw $2,8($30)
+i1 addiu $2,$2,1
+i2 sw $2,8($30)
+End BB
+Begin BB
+$l17:
+i0 lw $2,8($30)
+i1 slti $2,$2,10
+i2 bne $2,$0,$l20
+i3 add $0,$0,$0
+End BB
+Begin BB
+i0 lw $2,8($30)
+i1 addiu $2,$2,1
+i2 sw $2,8($30)
+End BB
+Begin BB
+$l16:
+i0 lw $2,8($30)
+i1 slti $2,$2,10
+i2 bne $2,$0,$l21
+i3 add $0,$0,$0
+End BB
+Begin BB
+i0 lui $1,0
+i1 ori $2,$1,1
+i2 or $29,$30,$0
+i3 lw $30,20($29)
+i4 addiu $29,$29,24
+i5 jr $31
+i6 add $0,$0,$0
+End BB
+test du BB 0
+Begin BB
+mat_mul:
+i0 addiu $29,$29,65512
+i1 sw $30,20($29)
+i2 or $30,$29,$0
+i3 sw $4,24($30)
+i4 sw $5,28($30)
+i5 sw $6,32($30)
+i6 sw $0,8($30)
+i7 j $l12
+i8 add $0,$0,$0
+End BB
+nb de successeur : 1
+succ1 : 5
+nb de predecesseurs : 0
+
+test du BB 1
+Begin BB
+$l15:
+i0 sw $0,4($30)
+i1 j $l13
+i2 add $0,$0,$0
+End BB
+nb de successeur : 1
+succ1 : 3
+nb de predecesseurs : 1
+pred 0 : 5; 
+test du BB 2
+Begin BB
+$l14:
+i0 lw $2,8($30)
+i1 sll $3,$2,3
+i2 sll $2,$3,2
+i3 addu $3,$3,$2
+i4 lw $2,32($30)
+i5 addu $3,$2,$3
+i6 lw $2,4($30)
+i7 sll $2,$2,2
+i8 addu $2,$3,$2
+i9 sw $0,0($2)
+i10 lw $2,8($30)
+i11 addiu $2,$2,1
+i12 sw $2,8($30)
+End BB
+nb de successeur : 1
+succ1 : 3
+nb de predecesseurs : 1
+pred 0 : 3; 
+test du BB 3
+Begin BB
+$l13:
+i0 lw $2,8($30)
+i1 slti $2,$2,10
+i2 bne $2,$0,$l14
+i3 add $0,$0,$0
+End BB
+nb de successeur : 2
+succ1 : 2 succ2 : 4
+nb de predecesseurs : 2
+pred 0 : 1; pred 1 : 2; 
+test du BB 4
+Begin BB
+i0 lw $2,8($30)
+i1 addiu $2,$2,1
+i2 sw $2,8($30)
+End BB
+nb de successeur : 1
+succ1 : 5
+nb de predecesseurs : 1
+pred 0 : 3; 
+test du BB 5
+Begin BB
+$l12:
+i0 lw $2,8($30)
+i1 slti $2,$2,10
+i2 bne $2,$0,$l15
+i3 add $0,$0,$0
+End BB
+nb de successeur : 2
+succ1 : 1 succ2 : 6
+nb de predecesseurs : 2
+pred 0 : 0; pred 1 : 4; 
+test du BB 6
+Begin BB
+i0 sw $0,8($30)
+i1 j $l16
+i2 add $0,$0,$0
+End BB
+nb de successeur : 1
+succ1 : 14
+nb de predecesseurs : 1
+pred 0 : 5; 
+test du BB 7
+Begin BB
+$l21:
+i0 sw $0,4($30)
+i1 j $l17
+i2 add $0,$0,$0
+End BB
+nb de successeur : 1
+succ1 : 12
+nb de predecesseurs : 1
+pred 0 : 14; 
+test du BB 8
+Begin BB
+$l20:
+i0 sw $0,0($30)
+i1 j $l18
+i2 add $0,$0,$0
+End BB
+nb de successeur : 1
+succ1 : 10
+nb de predecesseurs : 1
+pred 0 : 12; 
+test du BB 9
+Begin BB
+$l19:
+i0 lw $2,8($30)
+i1 sll $3,$2,3
+i2 sll $2,$3,2
+i3 addu $3,$3,$2
+i4 lw $2,32($30)
+i5 addu $4,$2,$3
+i6 lw $5,4($30)
+i7 lw $2,8($30)
+i8 sll $3,$2,3
+i9 sll $2,$3,2
+i10 addu $3,$3,$2
+i11 lw $2,32($30)
+i12 addu $3,$2,$3
+i13 lw $2,4($30)
+i14 sll $2,$2,2
+i15 addu $2,$3,$2
+i16 lw $6,0($2)
+i17 lw $2,8($30)
+i18 sll $3,$2,3
+i19 sll $2,$3,2
+i20 addu $3,$3,$2
+i21 lw $2,24($30)
+i22 addu $3,$2,$3
+i23 lw $2,0($30)
+i24 sll $2,$2,2
+i25 addu $2,$3,$2
+i26 lw $7,0($2)
+i27 lw $2,0($30)
+i28 sll $3,$2,3
+i29 sll $2,$3,2
+i30 addu $3,$3,$2
+i31 lw $2,28($30)
+i32 addu $3,$2,$3
+i33 lw $2,4($30)
+i34 sll $2,$2,2
+i35 addu $2,$3,$2
+i36 lw $2,0($2)
+i37 mul $2,$7,$2
+i38 addu $3,$6,$2
+i39 sll $2,$5,2
+i40 addu $2,$4,$2
+i41 sw $3,0($2)
+i42 lw $2,8($30)
+i43 addiu $2,$2,1
+i44 sw $2,8($30)
+End BB
+nb de successeur : 1
+succ1 : 10
+nb de predecesseurs : 1
+pred 0 : 10; 
+test du BB 10
+Begin BB
+$l18:
+i0 lw $2,8($30)
+i1 slti $2,$2,10
+i2 bne $2,$0,$l19
+i3 add $0,$0,$0
+End BB
+nb de successeur : 2
+succ1 : 9 succ2 : 11
+nb de predecesseurs : 2
+pred 0 : 8; pred 1 : 9; 
+test du BB 11
+Begin BB
+i0 lw $2,8($30)
+i1 addiu $2,$2,1
+i2 sw $2,8($30)
+End BB
+nb de successeur : 1
+succ1 : 12
+nb de predecesseurs : 1
+pred 0 : 10; 
+test du BB 12
+Begin BB
+$l17:
+i0 lw $2,8($30)
+i1 slti $2,$2,10
+i2 bne $2,$0,$l20
+i3 add $0,$0,$0
+End BB
+nb de successeur : 2
+succ1 : 8 succ2 : 13
+nb de predecesseurs : 2
+pred 0 : 7; pred 1 : 11; 
+test du BB 13
+Begin BB
+i0 lw $2,8($30)
+i1 addiu $2,$2,1
+i2 sw $2,8($30)
+End BB
+nb de successeur : 1
+succ1 : 14
+nb de predecesseurs : 1
+pred 0 : 12; 
+test du BB 14
+Begin BB
+$l16:
+i0 lw $2,8($30)
+i1 slti $2,$2,10
+i2 bne $2,$0,$l21
+i3 add $0,$0,$0
+End BB
+nb de successeur : 2
+succ1 : 7 succ2 : 15
+nb de predecesseurs : 2
+pred 0 : 6; pred 1 : 13; 
+test du BB 15
+Begin BB
+i0 lui $1,0
+i1 ori $2,$1,1
+i2 or $29,$30,$0
+i3 lw $30,20($29)
+i4 addiu $29,$29,24
+i5 jr $31
+i6 add $0,$0,$0
+End BB
+nb de successeur : 0
+
+nb de predecesseurs : 1
+pred 0 : 14; 
+Dominants pour BB0 : 
+Dominants pour BB1 : 
+Dominants pour BB2 : 
+Dominants pour BB3 : 
+Dominants pour BB4 : 
+Dominants pour BB5 : 
+Dominants pour BB6 : 
+Dominants pour BB7 : 
+Dominants pour BB8 : 
+Dominants pour BB9 : 
+Dominants pour BB10 : 
+Dominants pour BB11 : 
+Dominants pour BB12 : 
+Dominants pour BB13 : 
+Dominants pour BB14 : 
+Dominants pour BB15 : 
+------------Function 3/4 DISPLAY----------
+
+tmp/cfg_graph_test_asm32_2.dot
+test vaut 0 
+FONCTION 3
+comput BB
+ head:.ent	main
+ tail:.end	main
+addiu $29,$29,65504
+end comput Basic Block
+Affichage des blocs de base 
+Begin BB
+main:
+i0 addiu $29,$29,65504
+i1 sw $31,28($29)
+i2 sw $30,24($29)
+i3 or $30,$29,$0
+i4 sw $4,32($30)
+i5 sw $5,36($30)
+i6 lui $2,%hi(a)
+i7 addiu $4,$2,%lo(a)
+i8 lui $2,%hi(b)
+i9 addiu $5,$2,%lo(b)
+i10 lui $2,%hi(c)
+i11 addiu $6,$2,%lo(c)
+i12 lui $1,0
+i13 ori $7,$1,10
+i14 jal sum
+i15 add $0,$0,$0
+End BB
+Begin BB
+i0 lui $1,0
+i1 ori $2,$1,10
+i2 sw $2,16($29)
+i3 lui $2,%hi(a)
+i4 addiu $4,$2,%lo(a)
+i5 lui $2,%hi(b)
+i6 addiu $5,$2,%lo(b)
+i7 lui $2,%hi(c)
+i8 addiu $6,$2,%lo(c)
+i9 lui $2,%hi(d)
+i10 addiu $7,$2,%lo(d)
+i11 jal max_min_tab
+i12 add $0,$0,$0
+End BB
+Begin BB
+i0 or $3,$2,$0
+i1 lui $2,%hi($lc0)
+i2 addiu $4,$2,%lo($lc0)
+i3 or $5,$3,$0
+i4 jal printf
+i5 add $0,$0,$0
+End BB
+Begin BB
+i0 or $2,$0,$0
+i1 or $29,$30,$0
+i2 lw $31,28($29)
+i3 lw $30,24($29)
+i4 addiu $29,$29,32
+i5 jr $31
+i6 add $0,$0,$0
+End BB
+test du BB 0
+Begin BB
+main:
+i0 addiu $29,$29,65504
+i1 sw $31,28($29)
+i2 sw $30,24($29)
+i3 or $30,$29,$0
+i4 sw $4,32($30)
+i5 sw $5,36($30)
+i6 lui $2,%hi(a)
+i7 addiu $4,$2,%lo(a)
+i8 lui $2,%hi(b)
+i9 addiu $5,$2,%lo(b)
+i10 lui $2,%hi(c)
+i11 addiu $6,$2,%lo(c)
+i12 lui $1,0
+i13 ori $7,$1,10
+i14 jal sum
+i15 add $0,$0,$0
+End BB
+nb de successeur : 1
+succ1 : 1
+nb de predecesseurs : 0
+
+test du BB 1
+Begin BB
+i0 lui $1,0
+i1 ori $2,$1,10
+i2 sw $2,16($29)
+i3 lui $2,%hi(a)
+i4 addiu $4,$2,%lo(a)
+i5 lui $2,%hi(b)
+i6 addiu $5,$2,%lo(b)
+i7 lui $2,%hi(c)
+i8 addiu $6,$2,%lo(c)
+i9 lui $2,%hi(d)
+i10 addiu $7,$2,%lo(d)
+i11 jal max_min_tab
+i12 add $0,$0,$0
+End BB
+nb de successeur : 1
+succ1 : 2
+nb de predecesseurs : 1
+pred 0 : 0; 
+test du BB 2
+Begin BB
+i0 or $3,$2,$0
+i1 lui $2,%hi($lc0)
+i2 addiu $4,$2,%lo($lc0)
+i3 or $5,$3,$0
+i4 jal printf
+i5 add $0,$0,$0
+End BB
+nb de successeur : 1
+succ1 : 3
+nb de predecesseurs : 1
+pred 0 : 1; 
+test du BB 3
+Begin BB
+i0 or $2,$0,$0
+i1 or $29,$30,$0
+i2 lw $31,28($29)
+i3 lw $30,24($29)
+i4 addiu $29,$29,32
+i5 jr $31
+i6 add $0,$0,$0
+End BB
+nb de successeur : 0
+
+nb de predecesseurs : 1
+pred 0 : 2; 
+Dominants pour BB0 : 
+Dominants pour BB1 : 
+Dominants pour BB2 : 
+Dominants pour BB3 : 
+------------Function 4/4 DISPLAY----------
+
+tmp/cfg_graph_test_asm32_3.dot
+test vaut 0 
