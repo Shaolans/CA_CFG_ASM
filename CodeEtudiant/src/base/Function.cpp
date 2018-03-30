@@ -282,7 +282,7 @@ void Function::comput_succ_pred_BB(){
   if (BB_pred_succ) return; // on ne le fait qu'une fois
 
   comput_label();
-  
+
   int i = 0;
   for(i = 0; i < nbBB; i++){
   	current = get_BB(i);
@@ -319,13 +319,112 @@ void Function::compute_dom(){
 
   list<Basic_block*> workinglist; // liste de travail
   Basic_block *current, *bb, *pred;
-  bool change = true;
+  bool change = false;
 
   if (dom_computed) return; // on ne le fait qu'une fois
   comput_succ_pred_BB();   // on a besoin d'avoir calcul� les blocs pr�d�cesseurs et successeurs avant de calculer les dominants
 
+  //on met tous les blocs sans predecesseur dans la liste
+  for(int i=0 ; i<nbBB; i++){
+    current = get_BB(i);
+    if(current->get_nb_pred()==0){
+      workinglist.push_front(current);
+    }
+  }
 
-  /* A REMPLIR */
+
+    while(workinglist.size()!=0){
+
+      current = workinglist.front();
+      workinglist.remove(current);
+
+      //le block se domine lui-meme
+      if(  !current->Domin[current->get_index()]){
+        current->Domin[current->get_index()]=true;
+        change = true;
+      }
+
+      //si le block a un seul predecesseur, il est domine par ce predecesseur et par tous ceux qui dominent ce predecesseur
+      if(current->get_nb_pred()==1){
+        if(!current->Domin[current->get_predecessor(0)->get_index()]){
+          current->Domin[current->get_predecessor(0)->get_index()]=true;
+          for(int j=0; j<nbBB; j++){
+            if(current->get_predecessor(0)->Domin[j])
+              current->Domin[j] = true ;
+          }
+          change = true;
+        }
+      }
+      else{
+          //si le bloc a plusieurs predecesseurs
+          Basic_block* p1, *p2;
+          bool noDomination;
+          bool domCommuns[nbBB];
+          int cpt=0;
+
+          //on veut recuperer les blocs dominateurs en commun de tous les predecesseurs du bloc, car ils dominent le bloc
+          for(int i=0; i<nbBB; i++){
+            domCommuns[i]=true;
+          }
+
+          //on regarde si un ou plusieurs des predecesseurs du bloc domine tous les autres predecesseurs du blocs, alors il domine le bloc
+          for(int i=0; i<current->get_nb_pred()-1; i++){
+
+            p1 = current->get_predecessor(i);
+
+            for(int k=0; k<nbBB; k++){
+              if(!p1->Domin[k])
+                domCommuns[k]=false;
+            }
+
+            noDomination = false;
+            for(int j=1; j<current->get_nb_pred(); j++){
+
+                p2 = current->get_predecessor(j);
+
+                if(!p2->Domin[p1->get_index()]){
+                  noDomination=true;
+                  cpt++;
+                  break;
+                }
+
+            }
+            if( !noDomination){
+              if(!current->Domin[p1->get_index()]){
+                //current->Domin[p1->get_index()]=true;
+                for(int j=0; j<nbBB; j++){
+                  current->Domin[j] = p1->Domin[j];
+                }
+                change = true;
+              }
+
+            }
+          }
+
+          if(cpt==current->get_nb_pred()-1 && current->get_nb_pred()!=0){
+            for(int k=0; k<nbBB; k++){
+              if(domCommuns[k]){
+                current->Domin[k]=true;
+              }
+            }
+          }
+
+      }
+
+      //s'il y a eu au moins un changement, on doit re-evaluer les successeurs de ce bloc
+      if(change){
+        if(current->get_successor1()!=NULL)
+          workinglist.push_front(current->get_successor1());
+        if(current->get_successor2()!=NULL)
+          workinglist.push_front(current->get_successor2());
+
+        change=false;
+      }
+
+  }
+
+
+
 
 
   // affichage du resultat
