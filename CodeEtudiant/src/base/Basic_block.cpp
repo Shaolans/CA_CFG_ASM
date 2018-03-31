@@ -357,65 +357,90 @@ void Basic_block::comput_pred_succ_dep(){
    if (dep_done) return;
    Instruction *current;
    Instruction *itmp;
-   int rawTab[32] ={-1} ;
-   int warTab[32] = {-1} ;
+   int rawTab[32] ;
+   int warTab[32] ;
    int dest, source1, source2;
+   int i=0;
 
-   for(int i=0; i<get_nb_inst(); i++){
-     current = get_instruction_at_index(i);
+   current = _firstInst;
+
+   for(int k=0; k<32; k++){
+      rawTab[k]=-1;
+      warTab[k]=-1;
+   }
+
+   while(current!=_lastInst->get_next()){
+
      t_Inst type = current->get_type();
 
-      cout << type <<"\n";
 
-      if(i!=0){
-      //IF IT'S NOT NOP INSTRUCTION
+
+      if(current->get_reg_src1() && i!=0){
+          source1 = current->get_reg_src1()->get_reg();
+          if(rawTab[source1] != -1 ){
+            cout << "Dependance RAW entre " << rawTab[source1] << " et " << i << "\n";
+            add_dep_link(current, get_instruction_at_index(rawTab[source1]),RAW);
+            warTab[source1]=i;
+          }
+
+      }
+
+      if(current->get_reg_src2() && i!=0){
+          source2 = current->get_reg_src2()->get_reg();
+          if(rawTab[source2] != -1){
+            cout << "Dependance RAW entre " << rawTab[source2] << " et " << i << "\n";
+            add_dep_link(current, get_instruction_at_index(rawTab[source2]), RAW);
+            warTab[source2]=i;
+          }
+      }
+
       if(current->get_reg_dst()){
 
         dest = current->get_reg_dst()->get_reg();
 
-        if(current->get_reg_src1()){
-            source1 = current->get_reg_src1()->get_reg();
-            if(rawTab[source1] != -1 ){
-              cout << "Dependance entre " << rawTab[source1] << " et " << i << "\n";
-              add_dep_link(current, get_instruction_at_index(rawTab[source1]),RAW);
-            }
+        if(warTab[dest]!=-1 && warTab[dest]!=i){
+          cout << "Dependance WAR entre " << warTab[dest] << " et " << i << "\n";
+          add_dep_link(current, get_instruction_at_index(warTab[dest]),WAR);
         }
 
-        if(current->get_reg_src2()){
-            source2 = current->get_reg_src2()->get_reg();
-            if(rawTab[source2] != -1){
-              cout << "Dependance entre " << rawTab[source2] << " et " << i << "\n";
-              add_dep_link(current, get_instruction_at_index(rawTab[source2]), RAW);
-            }
-
+        if(rawTab[dest] != -1){
+          cout << "Dependance WAW entre " << rawTab[dest] << " et " << i << "\n";
+          add_dep_link(current, get_instruction_at_index(rawTab[dest]),WAW);
         }
-      }
-
-
-       rawTab[dest]=i;
-       cout << dest << " contient " << rawTab[dest] << "\n";
+        rawTab[dest]=i;
+        cout << dest << " contient " << rawTab[dest] << "\n";
 
       }
 
 
-      switch (type) {
-        //ALU
-        case 0:
+
+
+       //IF IT'S AN INSTRUCTION THAT MODIFIES A REGISTER
+
+
+
+      /*switch (type) {
+
+        case ALU:
 
           break;
 
-        //MEM
-        case 1:
 
+        case MEM:
+            if(current->string_opcode()=="lw")
+            cout << "AMEL CEST LA PLUS BELLE " << current->string_opcode() << "\n";
 
           break;
 
-        //BR
-        case 2:
+
+        case BR:
           break;
 
 
-     }
+     }*/
+
+     i++;
+     current = current->get_next();
 
    }
 
