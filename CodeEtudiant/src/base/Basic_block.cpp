@@ -361,8 +361,10 @@ void Basic_block::comput_pred_succ_dep(){
    int warTab[32] ;
    int dest, source1, source2;
    int i=0;
+   Instruction *lastMemInst ;
 
    current = _firstInst;
+   lastMemInst = NULL;
 
    for(int k=0; k<32; k++){
       rawTab[k]=-1;
@@ -372,12 +374,21 @@ void Basic_block::comput_pred_succ_dep(){
    while(current!=_lastInst->get_next()){
 
      t_Inst type = current->get_type();
-
+    bool res = false;
 
 
       if(current->get_reg_src1() && i!=0){
+
           source1 = current->get_reg_src1()->get_reg();
-          if(rawTab[source1] != -1 ){
+
+          if(current->get_reg_dst()){
+            dest = current->get_reg_dst()->get_reg();
+            if(dest == source1 ){
+              res = true;
+            }
+          }
+
+          if(rawTab[source1] != -1 && !res ){
             cout << "Dependance RAW entre " << rawTab[source1] << " et " << i << "\n";
             add_dep_link(current, get_instruction_at_index(rawTab[source1]),RAW);
             warTab[source1]=i;
@@ -387,7 +398,15 @@ void Basic_block::comput_pred_succ_dep(){
 
       if(current->get_reg_src2() && i!=0){
           source2 = current->get_reg_src2()->get_reg();
-          if(rawTab[source2] != -1){
+
+          if(current->get_reg_dst()){
+            dest = current->get_reg_dst()->get_reg();
+            if(dest == source2 ){
+              res = true;
+            }
+          }
+
+          if(rawTab[source2] != -1 && !res){
             cout << "Dependance RAW entre " << rawTab[source2] << " et " << i << "\n";
             add_dep_link(current, get_instruction_at_index(rawTab[source2]), RAW);
             warTab[source2]=i;
@@ -408,36 +427,16 @@ void Basic_block::comput_pred_succ_dep(){
           add_dep_link(current, get_instruction_at_index(rawTab[dest]),WAW);
         }
         rawTab[dest]=i;
-        cout << dest << " contient " << rawTab[dest] << "\n";
 
       }
 
-
-
-
-       //IF IT'S AN INSTRUCTION THAT MODIFIES A REGISTER
-
-
-
-      /*switch (type) {
-
-        case ALU:
-
-          break;
-
-
-        case MEM:
-            if(current->string_opcode()=="lw")
-            cout << "AMEL CEST LA PLUS BELLE " << current->string_opcode() << "\n";
-
-          break;
-
-
-        case BR:
-          break;
-
-
-     }*/
+      if(current->is_mem()){
+    		if (lastMemInst && current->is_dep_MEM(lastMemInst)){
+    			add_dep_link(current, lastMemInst, MEMDEP);
+    			cout << "Dependance MEM entre " << lastMemInst->get_index() << " et " << i << "\n";
+    		}
+    		lastMemInst = current;
+	    }
 
      i++;
      current = current->get_next();
