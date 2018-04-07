@@ -358,20 +358,19 @@ void Basic_block::comput_pred_succ_dep(){
    Instruction *current;
    Instruction *itmp;
    int rawTab[32] ;
-   int warTab[32] ;
+   list<int> warTab[32] ;
    int dest, source1, source2;
    int i=0;
    Instruction *lastMemInst ;
 
-   current = _firstInst;
+   current = get_first_instruction();
    lastMemInst = NULL;
 
    for(int k=0; k<32; k++){
       rawTab[k]=-1;
-      warTab[k]=-1;
    }
 
-   while(current!=_lastInst->get_next()){
+   while(current!=get_last_instruction()){
 
      t_Inst type = current->get_type();
     bool res = false;
@@ -390,8 +389,8 @@ void Basic_block::comput_pred_succ_dep(){
 
           if(rawTab[source1] != -1 && !res ){
             cout << "Dependance RAW entre " << rawTab[source1] << " et " << i << "\n";
-            add_dep_link(current, get_instruction_at_index(rawTab[source1]),RAW);
-            warTab[source1]=i;
+            add_dep_link(get_instruction_at_index(rawTab[source1]),current,RAW);
+            warTab[source1].push_front(i);
           }
 
       }
@@ -408,8 +407,8 @@ void Basic_block::comput_pred_succ_dep(){
 
           if(rawTab[source2] != -1 && !res){
             cout << "Dependance RAW entre " << rawTab[source2] << " et " << i << "\n";
-            add_dep_link(current, get_instruction_at_index(rawTab[source2]), RAW);
-            warTab[source2]=i;
+            add_dep_link(get_instruction_at_index(rawTab[source2]), current, RAW);
+            warTab[source2].push_front(i);
           }
       }
 
@@ -417,14 +416,18 @@ void Basic_block::comput_pred_succ_dep(){
 
         dest = current->get_reg_dst()->get_reg();
 
-        if(warTab[dest]!=-1 && warTab[dest]!=i){
-          cout << "Dependance WAR entre " << warTab[dest] << " et " << i << "\n";
-          add_dep_link(current, get_instruction_at_index(warTab[dest]),WAR);
+        while(!warTab[dest].empty() ){
+			int k = warTab[dest].front();
+			warTab[dest].remove(k);
+			if(k!=i){
+				cout << "Dependance WAR entre " << k << " et " << i << "\n";
+				add_dep_link(get_instruction_at_index(k),current,WAR);
+			}
         }
 
         if(rawTab[dest] != -1){
           cout << "Dependance WAW entre " << rawTab[dest] << " et " << i << "\n";
-          add_dep_link(current, get_instruction_at_index(rawTab[dest]),WAW);
+          add_dep_link(get_instruction_at_index(rawTab[dest]), current,WAW);
         }
         rawTab[dest]=i;
 
@@ -432,7 +435,7 @@ void Basic_block::comput_pred_succ_dep(){
 
       if(current->is_mem()){
     		if (lastMemInst && current->is_dep_MEM(lastMemInst)){
-    			add_dep_link(current, lastMemInst, MEMDEP);
+    			add_dep_link(lastMemInst,current, MEMDEP);
     			cout << "Dependance MEM entre " << lastMemInst->get_index() << " et " << i << "\n";
     		}
     		lastMemInst = current;
@@ -442,11 +445,10 @@ void Basic_block::comput_pred_succ_dep(){
      current = current->get_next();
 
    }
-
-
+   
    // NE PAS ENLEVER : cette fonction ne doit �tre appel�e qu'une seule fois
    dep_done = true;
-   return;
+  return;
 }
 
 void Basic_block::reset_pred_succ_dep(){
