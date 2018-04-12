@@ -357,11 +357,12 @@ void Basic_block::comput_pred_succ_dep(){
    if (dep_done) return;
    Instruction *current;
    Instruction *itmp;
-   int rawTab[32] ;
-   list<int> warTab[32] ;
+   int rawTab[32] ; // ecriture
+   list<int> warTab[32] ; // lecture
    int dest, source1, source2;
    int i=0;
    Instruction *lastMemInst ;
+   bool hasDep[get_nb_inst()-2] = {false};
 
    current = get_first_instruction();
    lastMemInst = NULL;
@@ -373,61 +374,58 @@ void Basic_block::comput_pred_succ_dep(){
    while(current!=get_last_instruction()){
 
      t_Inst type = current->get_type();
-    bool res = false;
+   
 
 
-      if(current->get_reg_src1() && i!=0){
+      if(current->get_reg_src1()){
 
           source1 = current->get_reg_src1()->get_reg();
 
-          if(current->get_reg_dst()){
-            dest = current->get_reg_dst()->get_reg();
-            if(dest == source1 ){
-              res = true;
-            }
-          }
-
-          if(rawTab[source1] != -1 && !res ){
+          if(rawTab[source1] != -1 ){
             cout << "Dependance RAW entre " << rawTab[source1] << " et " << i << "\n";
             add_dep_link(get_instruction_at_index(rawTab[source1]),current,RAW);
-            warTab[source1].push_front(i);
+			hasDep[rawTab[source1]] = true;
           }
+          
+          warTab[source1].push_front(i);
 
       }
 
-      if(current->get_reg_src2() && i!=0){
+      if(current->get_reg_src2()){
           source2 = current->get_reg_src2()->get_reg();
 
-          if(current->get_reg_dst()){
-            dest = current->get_reg_dst()->get_reg();
-            if(dest == source2 ){
-              res = true;
-            }
-          }
-
-          if(rawTab[source2] != -1 && !res){
+          if(rawTab[source2] != -1 ){
             cout << "Dependance RAW entre " << rawTab[source2] << " et " << i << "\n";
             add_dep_link(get_instruction_at_index(rawTab[source2]), current, RAW);
-            warTab[source2].push_front(i);
+            hasDep[rawTab[source2]] = true;
           }
+         
+          warTab[source2].push_front(i);
+          
       }
 
       if(current->get_reg_dst()){
 
         dest = current->get_reg_dst()->get_reg();
-
+		
+		//on vide la liste
         while(!warTab[dest].empty() ){
+			
+			//On pop
 			int k = warTab[dest].front();
 			warTab[dest].remove(k);
+			
 			if(k!=i){
 				cout << "Dependance WAR entre " << k << " et " << i << "\n";
 				add_dep_link(get_instruction_at_index(k),current,WAR);
+				hasDep[k] = true;
 			}
         }
-
+        
         if(rawTab[dest] != -1){
           cout << "Dependance WAW entre " << rawTab[dest] << " et " << i << "\n";
           add_dep_link(get_instruction_at_index(rawTab[dest]), current,WAW);
+          hasDep[rawTab[dest]] = true;
         }
         rawTab[dest]=i;
 
@@ -437,6 +435,7 @@ void Basic_block::comput_pred_succ_dep(){
     		if (lastMemInst && current->is_dep_MEM(lastMemInst)){
     			add_dep_link(lastMemInst,current, MEMDEP);
     			cout << "Dependance MEM entre " << lastMemInst->get_index() << " et " << i << "\n";
+    			hasDep[lastMemInst->get_index()]=true;
     		}
     		lastMemInst = current;
 	    }
@@ -444,6 +443,18 @@ void Basic_block::comput_pred_succ_dep(){
      i++;
      current = current->get_next();
 
+   }
+   
+   current = current->get_prev();
+   
+   if(current->is_branch()){
+   
+	   for(i=0; i<get_nb_inst()-2; i++){
+		   if(!hasDep[i]){
+			   add_dep_link(get_instruction_at_index(i),current, CONTROL);
+			   cout << "Dependance CONTROL entre " << i << " et " << get_nb_inst()-1 << "\n";
+		   }
+	   }
    }
    
    // NE PAS ENLEVER : cette fonction ne doit �tre appel�e qu'une seule fois
