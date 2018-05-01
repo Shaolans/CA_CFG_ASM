@@ -362,7 +362,7 @@ void Basic_block::comput_pred_succ_dep(){
    int dest, source1, source2;
    int i=0;
    Instruction *lastMemInst ;
-   bool hasDep[get_nb_inst()-2] = {false};
+   bool hasDep[get_nb_inst()] = {false};
 
    current = get_first_instruction();
    lastMemInst = NULL;
