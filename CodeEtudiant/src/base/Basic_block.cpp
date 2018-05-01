@@ -486,14 +486,37 @@ int Basic_block::nb_cycles(){
      inst_cycle[i] = -1;
    }
    comput_pred_succ_dep();
+   
+   inst_cycle[0] = 1;
+   
+   Instruction *tmp_inst;
+   int max = 0;
+   int i = 0;
+   int j = 0;
+   int tmp = 0;
+   int tmp_delai = 0;
+   for(i = 1; i < get_nb_inst(); i++){
+   	tmp_inst = get_instruction_at_index(i);
+   	max = inst_cycle[i-1] + 1;
+   	for(j = 0; j < i; j++){
+   		tmp_delai = delai(get_instruction_at_index(i)->get_type(), tmp_inst->get_type());
+   		if(tmp_delai != -1){
+   			tmp = inst_cycle[j] + tmp_delai;
+   			if(tmp > max){
+   				max = tmp;
+   			}
+   		}
+   	}
+   	inst_cycle[i] = max;
+   }
 
 
 
-   /* A REMPLIR */
 
 
 
-  return 0;
+
+  return inst_cycle[get_nb_inst()-1];
 }
 
 /*
