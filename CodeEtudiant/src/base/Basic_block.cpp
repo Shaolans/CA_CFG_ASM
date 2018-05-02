@@ -374,7 +374,7 @@ void Basic_block::comput_pred_succ_dep(){
    while(current!=get_last_instruction()){
 
      t_Inst type = current->get_type();
-   
+
 
 
       if(current->get_reg_src1()){
@@ -382,11 +382,11 @@ void Basic_block::comput_pred_succ_dep(){
           source1 = current->get_reg_src1()->get_reg();
 
           if(rawTab[source1] != -1 ){
-            cout << "Dependance RAW entre " << rawTab[source1] << " et " << i << "\n";
+            //cout << "Dependance RAW entre " << rawTab[source1] << " et " << i << "\n";
             add_dep_link(get_instruction_at_index(rawTab[source1]),current,RAW);
 			hasDep[rawTab[source1]] = true;
           }
-          
+
           warTab[source1].push_front(i);
 
       }
@@ -395,35 +395,35 @@ void Basic_block::comput_pred_succ_dep(){
           source2 = current->get_reg_src2()->get_reg();
 
           if(rawTab[source2] != -1 ){
-            cout << "Dependance RAW entre " << rawTab[source2] << " et " << i << "\n";
+            //cout << "Dependance RAW entre " << rawTab[source2] << " et " << i << "\n";
             add_dep_link(get_instruction_at_index(rawTab[source2]), current, RAW);
             hasDep[rawTab[source2]] = true;
           }
-         
+
           warTab[source2].push_front(i);
-          
+
       }
 
       if(current->get_reg_dst()){
 
         dest = current->get_reg_dst()->get_reg();
-		
+
 		//on vide la liste
         while(!warTab[dest].empty() ){
-			
+
 			//On pop
 			int k = warTab[dest].front();
 			warTab[dest].remove(k);
-			
+
 			if(k!=i){
-				cout << "Dependance WAR entre " << k << " et " << i << "\n";
+				//cout << "Dependance WAR entre " << k << " et " << i << "\n";
 				add_dep_link(get_instruction_at_index(k),current,WAR);
 				hasDep[k] = true;
 			}
         }
-        
+
         if(rawTab[dest] != -1){
-          cout << "Dependance WAW entre " << rawTab[dest] << " et " << i << "\n";
+          //cout << "Dependance WAW entre " << rawTab[dest] << " et " << i << "\n";
           add_dep_link(get_instruction_at_index(rawTab[dest]), current,WAW);
           hasDep[rawTab[dest]] = true;
         }
@@ -434,7 +434,7 @@ void Basic_block::comput_pred_succ_dep(){
       if(current->is_mem()){
     		if (lastMemInst && current->is_dep_MEM(lastMemInst)){
     			add_dep_link(lastMemInst,current, MEMDEP);
-    			cout << "Dependance MEM entre " << lastMemInst->get_index() << " et " << i << "\n";
+    			//cout << "Dependance MEM entre " << lastMemInst->get_index() << " et " << i << "\n";
     			hasDep[lastMemInst->get_index()]=true;
     		}
     		lastMemInst = current;
@@ -444,19 +444,19 @@ void Basic_block::comput_pred_succ_dep(){
      current = current->get_next();
 
    }
-   
+
    current = current->get_prev();
-   
+
    if(current->is_branch()){
-   
+
 	   for(i=0; i<get_nb_inst()-2; i++){
 		   if(!hasDep[i]){
 			   add_dep_link(get_instruction_at_index(i),current, CONTROL);
-			   cout << "Dependance CONTROL entre " << i << " et " << get_nb_inst()-1 << "\n";
+			   //cout << "Dependance CONTROL entre " << i << " et " << get_nb_inst()-1 << "\n";
 		   }
 	   }
    }
-   
+
    // NE PAS ENLEVER : cette fonction ne doit �tre appel�e qu'une seule fois
    dep_done = true;
   return;
@@ -486,9 +486,9 @@ int Basic_block::nb_cycles(){
      inst_cycle[i] = -1;
    }
    comput_pred_succ_dep();
-   
+
    inst_cycle[0] = 1;
-   
+
    Instruction *tmp_inst;
    int max = 0;
    int i = 0;
@@ -531,8 +531,39 @@ ne pas oublier les conventions d'appel : les registres $4, $5, $6, $7 peuvent co
 void Basic_block::compute_use_def(void){
   Instruction * inst = get_first_instruction();
   if (use_def_done) return;
+  OPRegister *dst;
+  OPRegister *src1;
+  OPRegister *src2;
+  int tmpreg;
+  while(inst){
+    src1 = inst->get_reg_src1();
+    if(src1){
+      tmpreg = src1->get_reg();
+      if(!Def[tmpreg] && !Use[tmpreg]){
+        Use[tmpreg] = true;
+      }
+    }
 
-  /* A REMPLIR */
+    src2 = inst->get_reg_src2();
+    if(src2){
+      tmpreg = src2->get_reg();
+      if(!Def[tmpreg] && !Use[tmpreg]){
+        Use[tmpreg] = true;
+      }
+    }
+
+    dst = inst->get_reg_dst();
+    if(dst){
+      tmpreg = dst->get_reg();
+      if(!Def[tmpreg]){
+        Def[tmpreg] = true;
+      }
+    }
+
+    inst = inst->get_next();
+
+  }
+
 
 #ifdef DEBUG
   cout << "****** BB " << get_index() << "************" << endl;
