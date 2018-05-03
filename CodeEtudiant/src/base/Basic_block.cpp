@@ -592,8 +592,19 @@ Si $i est d�fini plusieurs fois c'est l'instruction avec l'index le plus grand
 void Basic_block::compute_def_liveout(){
 
   Instruction * inst = get_first_instruction();
+  OPRegister *dst;
+  int reg;
 
-  /* A REMPLIR */
+  for(int i = 0; i < get_nb_inst(); i++){
+    dst = get_instruction_at_index(i)->get_reg_dst();
+    if(dst){
+      reg = dst->get_reg();
+      if(LiveOut[reg]){
+        DefLiveOut[reg] = i;
+      }
+    }
+  }
+
 
 #ifdef DEBUG
   cout << "DEF LIVE OUT: " ;

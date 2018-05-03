@@ -85,9 +85,6 @@ int main(int argc, char * argv[]){
 	     //calcul des liens de d�pendances entre les instructions du BB
 	      bb->comput_pred_succ_dep();
 
-//ajout pour test, n'etait pas present dans le fichier original
-bb->compute_use_def();
-functmp ->compute_live_var();
 	      /**************** CALCUL NB CYCLES *********************/
 	      //affichage du nb de cycle pour l'execution du BB
 	      cout<<"---nb_cycles : "<<bb->nb_cycles()<<"-----------"<<endl;

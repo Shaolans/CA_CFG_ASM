@@ -468,12 +468,15 @@ for(int i = 0; i < nbBB; i++){
   }
 }
 
-int j = 0;
+
+// tant que la liste de travail n'est pas vide
 while(!workinglist.empty()){
   current = workinglist.front();
   workinglist.pop_front();
-  cout << "traitement bloc "<< current->get_index()<< endl;
+  //cout << "traitement bloc "<< current->get_index()<< endl;
 
+
+  //on copie les anciennes valeurs pour verifier s'il y a eu un changement
   for(int i = 0; i < NB_REG; i++){
     oldtmpLIN[i] = current->LiveIn[i];
     oldtmpLOUT[i] = current->LiveOut[i];
@@ -481,9 +484,15 @@ while(!workinglist.empty()){
 
   nb_succ = current->get_nb_succ();
 
+  //on clean LiveOut
   for(int i = 0; i < NB_REG; i++) current->LiveOut[i] = false;
+
+
+  //suivant le nombre de successeur
   switch(nb_succ){
     case 0:
+      //si aucun alors c'est une fin de fonction
+      //donc LiveOut[31] = LiveOut[2] = true
       current->LiveOut[2] = true;
       current->LiveOut[29] = true;
       break;
@@ -508,6 +517,8 @@ while(!workinglist.empty()){
       break;
   }
 
+
+  //si il y a eu une difference alors il y a eu un changement
   for(int i = 0; i < NB_REG; i++){
     if(oldtmpLOUT[i] != current->LiveOut[i]){
       change = true;
@@ -516,9 +527,10 @@ while(!workinglist.empty()){
   }
 
 
-
-
+  //on clean LiveIn
   for(int i = 0; i < NB_REG; i++) current->LiveIn[i] = false;
+
+  //LiveIn = Use U (LiveOut \ DEF)
   for(int i = 0; i < NB_REG; i++){
     current->LiveIn[i] = current->Use[i];
     if(current->LiveOut[i] && !current->Def[i]){
@@ -526,6 +538,7 @@ while(!workinglist.empty()){
     }
   }
 
+  //on regarde s'il y a changement
   if(!change){
     for(int i = 0; i < NB_REG; i++){
       if(oldtmpLIN[i] != current->LiveIn[i]){
@@ -535,12 +548,17 @@ while(!workinglist.empty()){
     }
   }
 
+  //s'il y a eu changement alors on ajoute les predecesseurs dans la liste de
+  //travail
   if(change){
     int nb_pred = current->get_nb_pred();
     for(int i = 0; i < nb_pred; i++){
       workinglist.push_back(current->get_predecessor(i));
     }
-  }/*
+  }
+  change = false;
+
+  /*
   cout << "LIN: ";
   for(int i = 0; i < NB_REG; i++){
     if(current->LiveIn[i]) cout << "$" << i << " ";
@@ -550,7 +568,6 @@ while(!workinglist.empty()){
     if(current->LiveOut[i]) cout << "$" << i << " ";
   }
   cout << endl;*/
-  change = false;
 }
 
 
