@@ -444,17 +444,115 @@ void Function::compute_dom(){
   return;
 }
 
+
+
 void Function::compute_live_var(){
 
   list<Basic_block*> workinglist;
   Basic_block *current, *bb, *pred;
-  bool change = true;
+  bool change = false;
   int nbBB= (int) _myBB.size();
+  vector<bool> oldtmpLIN(NB_REG, false);
+  vector<bool> oldtmpLOUT(NB_REG, false);
+  int nb_succ = 0;
 
-
-
+  Basic_block *succ1, *succ2;
   /* A REMPLIR avec algo vu en cours et en TD*/
  /* algorithme it�ratif qui part des blocs sans successeur, ne pas oublier que lorsque l'on sort d'une fonction le registre $2 contient le r�sultat (il est donc vivant), le registre pointeur de pile ($29) est aussi vivant ! */
+
+//recherche de blocs sans successeur
+for(int i = 0; i < nbBB; i++){
+  current = get_BB(i);
+  if(current->get_nb_succ() == 0){
+    workinglist.push_back(current);
+  }
+}
+
+int j = 0;
+while(!workinglist.empty()){
+  current = workinglist.front();
+  workinglist.pop_front();
+  cout << "traitement bloc "<< current->get_index()<< endl;
+
+  for(int i = 0; i < NB_REG; i++){
+    oldtmpLIN[i] = current->LiveIn[i];
+    oldtmpLOUT[i] = current->LiveOut[i];
+  }
+
+  nb_succ = current->get_nb_succ();
+
+  for(int i = 0; i < NB_REG; i++) current->LiveOut[i] = false;
+  switch(nb_succ){
+    case 0:
+      current->LiveOut[2] = true;
+      current->LiveOut[29] = true;
+      break;
+    case 1:
+      succ1 = current->get_successor1();
+      for(int i = 0; i < NB_REG; i++){
+        current->LiveOut[i] = succ1->LiveIn[i];
+      }
+      break;
+    case 2:
+      succ1 = current->get_successor1();
+      for(int i = 0; i < NB_REG; i++){
+        current->LiveOut[i] = succ1->LiveIn[i];
+      }
+
+      succ2 = current->get_successor2();
+      for(int i = 0; i < NB_REG; i++){
+        if(succ2->LiveIn[i]){
+          current->LiveOut[i] = true;
+        }
+      }
+      break;
+  }
+
+  for(int i = 0; i < NB_REG; i++){
+    if(oldtmpLOUT[i] != current->LiveOut[i]){
+      change = true;
+      break;
+    }
+  }
+
+
+
+
+  for(int i = 0; i < NB_REG; i++) current->LiveIn[i] = false;
+  for(int i = 0; i < NB_REG; i++){
+    current->LiveIn[i] = current->Use[i];
+    if(current->LiveOut[i] && !current->Def[i]){
+      current->LiveIn[i] = true;
+    }
+  }
+
+  if(!change){
+    for(int i = 0; i < NB_REG; i++){
+      if(oldtmpLIN[i] != current->LiveIn[i]){
+        change = true;
+        break;
+      }
+    }
+  }
+
+  if(change){
+    int nb_pred = current->get_nb_pred();
+    for(int i = 0; i < nb_pred; i++){
+      workinglist.push_back(current->get_predecessor(i));
+    }
+  }/*
+  cout << "LIN: ";
+  for(int i = 0; i < NB_REG; i++){
+    if(current->LiveIn[i]) cout << "$" << i << " ";
+  }
+  cout << endl << "LOUT: ";
+  for(int i = 0; i < NB_REG; i++){
+    if(current->LiveOut[i]) cout << "$" << i << " ";
+  }
+  cout << endl;*/
+  change = false;
+}
+
 
 
   // Affichage du resultat
@@ -480,7 +578,6 @@ void Function::compute_live_var(){
   }
   return;
  }
-
 
 
 
