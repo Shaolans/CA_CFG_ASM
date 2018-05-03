@@ -628,7 +628,62 @@ void Basic_block::reg_rename(list<int> *frees){
   compute_def_liveout();
 
 
-  /* A REMPLIR */
+  Instruction *current;
+  Instruction *tmp;
+  OPRegister *dst;
+  OPRegister *tmpreg1;
+  OPRegister *tmpreg2;
+  int reg;
+  int nb_inst = get_nb_inst();
+  list<int> lfree(frees->begin(), frees->end());
+
+  //parcours toutes les instructions
+  for(int i = 0; i < nb_inst; i++){
+    current = get_instruction_at_index(i);
+    dst = current->get_reg_dst();
+
+    //s'il y a une definition de registre
+    if(dst){
+      reg = dst->get_reg();
+
+      //si elle n'est pas vivante en sortie ou du moins n'est pas la derniere
+      //definition en sortie
+      if(DefLiveOut[reg] != i){
+        newr = lfree.front();
+        lfree.pop_front();
+
+        //on cherche toutes les dependances RAW jusqu'à trouver une nouvelle
+        //definition ou alors a la fin du BB
+        for(int j = i + 1; j < nb_inst; j++){
+          tmp = get_instruction_at_index(j);
+
+          if(current->is_dep_WAW(tmp)) break;
+
+          if(current->is_dep_RAW1(tmp) || current->is_dep_RAW2(tmp)){
+            tmpreg1 = tmp->get_reg_src1();
+            tmpreg2 = tmp->get_reg_src2();
+
+            if(tmpreg1 && tmpreg1->get_reg() == reg){
+              //modifier le src1 de tmp
+              //tmp->set_op2(new OPRegister(newr, Src));
+            }
+
+            if(tmpreg2 && tmpreg2->get_reg() == reg){
+              //modifier le src2 de tmp
+              //tmp->set_op3(new OPRegister(newr, Src));
+            }
+
+          }
+
+          //modifier l'instruction current a la nouvelle definition newr
+          //current->set_op1(new OPRegister(newr, Dst));
+        }
+
+      }
+    }
+
+  }
+
 
 }
 

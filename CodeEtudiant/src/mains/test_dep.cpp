@@ -112,39 +112,39 @@ int main(int argc, char * argv[]){
 	      d->scheduling(false);
 
 	      // DECOMMENTER pour afficher le nouvel ordonnancement
-
-	      //cout<<"----  new scheduling: -----"<<endl;
-	      //d->display_sheduled_instr();
+				/*
+	      cout<<"----  new scheduling: -----"<<endl;
+	      d->display_sheduled_instr();
 
 	      // Application du  nouvel ordonnancement (changement r�el dans le BB)
-	      //d->apply_scheduling();
-	      // cout<<"---- BB with new scheduling: -----"<<endl;
-	      // bb->display();
+	      d->apply_scheduling();
+	       cout<<"---- BB with new scheduling: -----"<<endl;
+	       bb->display();
 
 	      // recalcul du nb de cycle apr�s scheduling
-	      // cout<<"---nb_cycles : "<<bb->nb_cycles()<<"-----------"<<endl;
+	       cout<<"---nb_cycles : "<<bb->nb_cycles()<<"-----------"<<endl;
 
 
 	      /**************** RENOMMAGE DE REGISTRE ****************/
 
 	      // liste de registres pour le renommage
 	      // avec des registres pass�ees en param�tre
-	      /*
+
 	      frees.clear();
 	      for(int k=32; k<64; k++){
 	      	 frees.push_back(k);
 	      }
-	      */
+
 
 	      /* renommage en utilisant des registres n'existant pas */
 
-	      //  bb->reg_rename(&frees);
+	        bb->reg_rename(&frees);
 
 	      /* renommage utilisant les registres disponibles dans le bloc */
 	      /*  ne pas faire les 2 */
 	      /* il faut recalculer les informations de vivacit� et de def-use
 	         pour pouvoir le faire 2 fois de suite !!
-	      */
+	      */*/
 
 	      bb->reg_rename();
 	      cout<<"----- apres renommage ------"<<endl;
