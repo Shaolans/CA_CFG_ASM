@@ -112,7 +112,7 @@ int main(int argc, char * argv[]){
 	      d->scheduling(false);
 
 	      // DECOMMENTER pour afficher le nouvel ordonnancement
-				/*
+				
 	      cout<<"----  new scheduling: -----"<<endl;
 	      d->display_sheduled_instr();
 
@@ -144,7 +144,7 @@ int main(int argc, char * argv[]){
 	      /*  ne pas faire les 2 */
 	      /* il faut recalculer les informations de vivacit� et de def-use
 	         pour pouvoir le faire 2 fois de suite !!
-	      */*/
+	      */
 
 	      bb->reg_rename();
 	      cout<<"----- apres renommage ------"<<endl;
