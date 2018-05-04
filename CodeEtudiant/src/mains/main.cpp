@@ -193,6 +193,7 @@ for(itbb=functmp->bb_list_begin();
   bb=*itbb;
   cout<<"----------BB "<<j<<"-----------"<<endl;
   bb->compute_def_liveout();
+	cout << endl;
 
 }
 	}

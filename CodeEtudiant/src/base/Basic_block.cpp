@@ -510,12 +510,6 @@ int Basic_block::nb_cycles(){
    	inst_cycle[i] = max;
    }
 
-
-
-
-
-
-
   return inst_cycle[get_nb_inst()-1];
 }
 
