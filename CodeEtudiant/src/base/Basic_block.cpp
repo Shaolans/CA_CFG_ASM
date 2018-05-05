@@ -362,21 +362,21 @@ void Basic_block::comput_pred_succ_dep(){
    int dest, source1, source2;
    int i=0;
    list<Instruction *> lastMemInst ;
-   list<Instruction *>:: iterator iteInst; 
+   list<Instruction *>:: iterator iteInst;
    Instruction * tmpMemInst;
    bool hasDep[get_nb_inst()] = {false};
 
    current = get_first_instruction();
-   
+
    Instruction * derniereInst ;
-   
+
    if(get_last_instruction()->is_mem() ){
 	   derniereInst = get_last_instruction()->get_next();
 	}
 	else{
 		derniereInst = get_last_instruction();
 	}
-   
+
 
    for(int k=0; k<32; k++){
       rawTab[k]=-1;
@@ -436,22 +436,22 @@ void Basic_block::comput_pred_succ_dep(){
         }
 
         if(rawTab[dest] != -1){
-			
+
           cout << "Dependance WAW entre " << rawTab[dest] << " et " << i << "\n";
           add_dep_link(get_instruction_at_index(rawTab[dest]), current,WAW);
           hasDep[rawTab[dest]] = true;
         }
-        
+
         rawTab[dest]=i;
 
       }
 
       if(current->is_mem()){
-			
-			for(iteInst = lastMemInst.begin(); iteInst!=lastMemInst.end(); ++iteInst){			
-				
+
+			for(iteInst = lastMemInst.begin(); iteInst!=lastMemInst.end(); ++iteInst){
+
 				tmpMemInst = *iteInst;
-				
+
 				if (current->is_dep_MEM(tmpMemInst)){
 					add_dep_link(tmpMemInst,current, MEMDEP);
 					cout << "Dependance MEM entre " << tmpMemInst->get_index() << " et " << i << "\n";
@@ -466,7 +466,7 @@ void Basic_block::comput_pred_succ_dep(){
      current = current->get_next();
 
    }
-	
+
    if(current){
 	   current = current->get_prev();
 
@@ -649,8 +649,8 @@ void Basic_block::reg_rename(list<int> *frees){
   compute_def_liveout();
 
 
-  /*Instruction *current;
-  Instruction *tmp;
+  Instruction *current;
+  dep *tmp;
   OPRegister *dst;
   OPRegister *tmpreg1;
   OPRegister *tmpreg2;
@@ -675,36 +675,33 @@ void Basic_block::reg_rename(list<int> *frees){
 
         //on cherche toutes les dependances RAW jusqu'à trouver une nouvelle
         //definition ou alors a la fin du BB
-        for(int j = i + 1; j < nb_inst; j++){
-          tmp = get_instruction_at_index(j);
+        for(int j = 0; j < current->get_nb_succ(); j++){
+          tmp = current->get_succ_dep(j);
 
-          if(current->is_dep_WAW(tmp)) break;
-
-          if(current->is_dep_RAW1(tmp) || current->is_dep_RAW2(tmp)){
-            tmpreg1 = tmp->get_reg_src1();
-            tmpreg2 = tmp->get_reg_src2();
+          if(tmp->type == RAW){
+            tmpreg1 = tmp->inst->get_reg_src1();
+            tmpreg2 = tmp->inst->get_reg_src2();
 
             if(tmpreg1 && tmpreg1->get_reg() == reg){
               //modifier le src1 de tmp
-              //tmp->set_op2(new OPRegister(newr, Src));
+              tmpreg1->set_reg(newr);
             }
 
             if(tmpreg2 && tmpreg2->get_reg() == reg){
               //modifier le src2 de tmp
-              //tmp->set_op3(new OPRegister(newr, Src));
+              tmpreg2->set_reg(newr);
             }
 
           }
 
-          //modifier l'instruction current a la nouvelle definition newr
-          //current->set_op1(new OPRegister(newr, Dst));
         }
+        //modifier l'instruction current a la nouvelle definition newr
+        dst->set_reg(newr);
 
       }
     }
 
-  }*/
-
+  }
 
 }
 

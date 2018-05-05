@@ -112,7 +112,7 @@ int main(int argc, char * argv[]){
 	      d->scheduling(false);
 
 	      // DECOMMENTER pour afficher le nouvel ordonnancement
-				
+
 	      cout<<"----  new scheduling: -----"<<endl;
 	      d->display_sheduled_instr();
 
@@ -153,6 +153,7 @@ int main(int argc, char * argv[]){
 	      // il faut annuler le calcul des d�pendances et le refaire
 	      bb->reset_pred_succ_dep();
 	      bb->comput_pred_succ_dep();
+
 	      cout<<"---nb_cycles--"<<bb->nb_cycles()<<"-----------"<<endl;
 
 	      d= new Dfg(bb);
