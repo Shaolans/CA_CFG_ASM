@@ -585,6 +585,14 @@ void Basic_block::compute_use_def(void){
 
   }
 
+  inst = get_instruction_at_index(get_nb_inst() - 2);
+  if(inst->is_call()){
+    Use[4] = true;
+    Use[5] = true;
+    Use[6] = true;
+    Def[2] = true;
+    Def[31] = true;
+  }
 
 #ifdef DEBUG
   cout << "****** BB " << get_index() << "************" << endl;
@@ -670,6 +678,7 @@ void Basic_block::reg_rename(list<int> *frees){
       //si elle n'est pas vivante en sortie ou du moins n'est pas la derniere
       //definition en sortie
       if(DefLiveOut[reg] != i){
+        if(lfree.empty()) return;
         newr = lfree.front();
         lfree.pop_front();
 
@@ -713,6 +722,13 @@ void Basic_block::reg_rename(){
   Instruction * inst = get_first_instruction();
   int newr;
   list<int> *frees, lfree;
+
+  for(int i = 0; i < NB_REG; i++){
+    if(i != 0 && i != 26 && i != 27 && i != 28 && i != 29 && i != 30 && i != 31){
+      if(!LiveIn[i] && !Def[i]) lfree.push_back(i);
+    }
+  }
+  reg_rename(&lfree);
 
 
   /* A REMPLIR */
