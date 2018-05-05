@@ -357,8 +357,8 @@ void Basic_block::comput_pred_succ_dep(){
    if (dep_done) return;
    Instruction *current;
    Instruction *itmp;
-   int rawTab[32] ; // ecriture
-   list<int> warTab[32] ; // lecture
+   int rawTab[64] ; // ecriture
+   list<int> warTab[64] ; // lecture
    int dest, source1, source2;
    int i=0;
    list<Instruction *> lastMemInst ;
@@ -378,7 +378,7 @@ void Basic_block::comput_pred_succ_dep(){
 	}
 
 
-   for(int k=0; k<32; k++){
+   for(int k=0; k<64; k++){
       rawTab[k]=-1;
    }
 
