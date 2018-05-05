@@ -636,7 +636,7 @@ void Basic_block::compute_def_liveout(){
 
 
 #ifdef DEBUG
-  cout << "DEF LIVE OUT: " ;
+  cout << "DEF LIVE OUT: " << endl;
   for(int i=0; i<NB_REG; i++){
       if (DefLiveOut[i] != -1)
 	cout << "$"<< i << " definit par i" << DefLiveOut[i] << endl;

@@ -184,8 +184,9 @@ bb->compute_use_def();
 	      //return 0;*/
 	   }
 //ajout pour test, n'etait pas present dans le fichier original
+cout << endl << "---------- COMPUTE LIVEIN AND LIVEOUT ----------" << endl;
 functmp ->compute_live_var();
-cout << "CALCUL DEFLIVEOUT" << endl;
+cout << endl << "---------- COMPUTE DEF LIVEOUT ----------" << endl;
 j=0;
 for(itbb=functmp->bb_list_begin();
     itbb!=functmp->bb_list_end(); itbb++, j++){
@@ -193,7 +194,6 @@ for(itbb=functmp->bb_list_begin();
   bb=*itbb;
   cout<<"----------BB "<<j<<"-----------"<<endl;
   bb->compute_def_liveout();
-	cout << endl;
 
 }
 	}

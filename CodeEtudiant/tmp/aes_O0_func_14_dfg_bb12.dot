@@ -1,0 +1,16 @@
+digraph G1 {
+node [shape = ellipse];
+i0 [label = "lbu $2,16($30)"] ;
+i0 ->  i1 [label= "RAW_2"];
+i0 ->  i1 [label= "WAW"];
+i0 ->  i2 [label= "MEM"];
+i1 [label = "addiu $2,$2,65535"] ;
+i1 ->  i2 [label= "RAW_1"];
+i1 ->  i3 [label= "WAW"];
+i2 [label = "sb $2,16($30)"] ;
+i2 ->  i3 [label= "WAR"];
+i2 ->  i3 [label= "MEM"];
+i3 [label = "lbu $2,16($30)"] ;
+i3 ->  i4 [label= "RAW_3"];
+i4 [label = "bne $2,$0,$l67"] ;
+}

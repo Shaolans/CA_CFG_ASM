@@ -1,0 +1,22 @@
+digraph G1 {
+node [shape = ellipse];
+i0 [label = "addiu $29,$29,65520"] ;
+i0 ->  i1 [label= "RAW_1"];
+i0 ->  i2 [label= "RAW_1"];
+i1 [label = "sw $30,12($29)"] ;
+i1 ->  i2 [label= "WAR"];
+i1 ->  i4 [label= "MEM"];
+i1 ->  i5 [label= "MEM"];
+i2 [label = "or $30,$29,$0"] ;
+i2 ->  i4 [label= "RAW_1"];
+i2 ->  i5 [label= "RAW_1"];
+i4 [label = "sb $2,16($30)"] ;
+i4 ->  i5 [label= "WAR"];
+i4 ->  i5 [label= "MEM"];
+i5 [label = "lb $2,16($30)"] ;
+i5 ->  i6 [label= "RAW_3"];
+i6 [label = "bgez $2,$l2"] ;
+i3 [label = "or $2,$4,$0"] ;
+i3 ->  i4 [label= "RAW_1"];
+i3 ->  i5 [label= "WAW"];
+}
