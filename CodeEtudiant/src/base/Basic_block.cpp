@@ -361,28 +361,41 @@ void Basic_block::comput_pred_succ_dep(){
    list<int> warTab[32] ; // lecture
    int dest, source1, source2;
    int i=0;
-   Instruction *lastMemInst ;
+   list<Instruction *> lastMemInst ;
+   list<Instruction *>:: iterator iteInst; 
+   Instruction * tmpMemInst;
    bool hasDep[get_nb_inst()] = {false};
 
    current = get_first_instruction();
-   lastMemInst = NULL;
+   
+   Instruction * derniereInst ;
+   
+   if(get_last_instruction()->is_mem() ){
+	   derniereInst = get_last_instruction()->get_next();
+	}
+	else{
+		derniereInst = get_last_instruction();
+	}
+   
 
    for(int k=0; k<32; k++){
       rawTab[k]=-1;
    }
 
-   while(current!=get_last_instruction()){
+   while( current != derniereInst ){
 
      t_Inst type = current->get_type();
 
-
+		source1 = -1;
+		source2=-1;
+		dest=-1;
 
       if(current->get_reg_src1()){
 
           source1 = current->get_reg_src1()->get_reg();
 
           if(rawTab[source1] != -1 ){
-            //cout << "Dependance RAW entre " << rawTab[source1] << " et " << i << "\n";
+            cout << "Dependance RAW entre " << rawTab[source1] << " et " << i << "\n";
             add_dep_link(get_instruction_at_index(rawTab[source1]),current,RAW);
 			hasDep[rawTab[source1]] = true;
           }
@@ -395,7 +408,7 @@ void Basic_block::comput_pred_succ_dep(){
           source2 = current->get_reg_src2()->get_reg();
 
           if(rawTab[source2] != -1 ){
-            //cout << "Dependance RAW entre " << rawTab[source2] << " et " << i << "\n";
+            cout << "Dependance RAW entre " << rawTab[source2] << " et " << i << "\n";
             add_dep_link(get_instruction_at_index(rawTab[source2]), current, RAW);
             hasDep[rawTab[source2]] = true;
           }
@@ -416,46 +429,57 @@ void Basic_block::comput_pred_succ_dep(){
 			warTab[dest].remove(k);
 
 			if(k!=i){
-				//cout << "Dependance WAR entre " << k << " et " << i << "\n";
+				cout << "Dependance WAR entre " << k << " et " << i << "\n";
 				add_dep_link(get_instruction_at_index(k),current,WAR);
 				hasDep[k] = true;
 			}
         }
 
         if(rawTab[dest] != -1){
-          //cout << "Dependance WAW entre " << rawTab[dest] << " et " << i << "\n";
+			
+          cout << "Dependance WAW entre " << rawTab[dest] << " et " << i << "\n";
           add_dep_link(get_instruction_at_index(rawTab[dest]), current,WAW);
           hasDep[rawTab[dest]] = true;
         }
+        
         rawTab[dest]=i;
 
       }
 
       if(current->is_mem()){
-    		if (lastMemInst && current->is_dep_MEM(lastMemInst)){
-    			add_dep_link(lastMemInst,current, MEMDEP);
-    			//cout << "Dependance MEM entre " << lastMemInst->get_index() << " et " << i << "\n";
-    			hasDep[lastMemInst->get_index()]=true;
-    		}
-    		lastMemInst = current;
+			
+			for(iteInst = lastMemInst.begin(); iteInst!=lastMemInst.end(); ++iteInst){			
+				
+				tmpMemInst = *iteInst;
+				
+				if (current->is_dep_MEM(tmpMemInst)){
+					add_dep_link(tmpMemInst,current, MEMDEP);
+					cout << "Dependance MEM entre " << tmpMemInst->get_index() << " et " << i << "\n";
+					hasDep[tmpMemInst->get_index()]=true;
+				}
+
+			}
+			lastMemInst.push_front(current);
 	    }
 
      i++;
      current = current->get_next();
 
    }
+	
+   if(current){
+	   current = current->get_prev();
 
-   current = current->get_prev();
+	   if(current->is_branch()){
 
-   if(current->is_branch()){
-
-	   for(i=0; i<get_nb_inst()-2; i++){
-		   if(!hasDep[i]){
-			   add_dep_link(get_instruction_at_index(i),current, CONTROL);
-			   //cout << "Dependance CONTROL entre " << i << " et " << get_nb_inst()-1 << "\n";
+		   for(i=0; i<get_nb_inst()-2; i++){
+			   if(!hasDep[i]){
+				   add_dep_link(get_instruction_at_index(i),current, CONTROL);
+				   cout << "Dependance CONTROL entre " << i << " et " << get_nb_inst()-1 << "\n";
+			   }
 		   }
 	   }
-   }
+	}
 
    // NE PAS ENLEVER : cette fonction ne doit �tre appel�e qu'une seule fois
    dep_done = true;
@@ -625,7 +649,7 @@ void Basic_block::reg_rename(list<int> *frees){
   compute_def_liveout();
 
 
-  Instruction *current;
+  /*Instruction *current;
   Instruction *tmp;
   OPRegister *dst;
   OPRegister *tmpreg1;
@@ -679,7 +703,7 @@ void Basic_block::reg_rename(list<int> *frees){
       }
     }
 
-  }
+  }*/
 
 
 }
