@@ -391,7 +391,7 @@ void Function::compute_dom(){
             }
             if( !noDomination){
               if(!current->Domin[p1->get_index()]){
-                //current->Domin[p1->get_index()]=true;
+                
                 for(int j=0; j<nbBB; j++){
                   current->Domin[j] = p1->Domin[j];
                 }
