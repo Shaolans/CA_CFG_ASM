@@ -1,0 +1,8 @@
+digraph G1 {
+node [shape = box];
+BB0 [label = "aes256_done:\laddiu $29,$29,65512\lsw $30,20($29)\lor $30,$29,$0\lsw $4,24($30)\lsw $0,8($30)\lj $l54\ladd $0,$0,$0\l"] ;
+BB0 -> BB2 [style = filled, label = ""];
+BB2 [label = "$l54:\llw $3,8($30)\lbeqz $2,$3,32\lbne $2,$0,$l55\l"] ;
+BB2 -> BB3 [style = filled, label = ""];
+BB3 [label = "add $0,$0,$0\llui $1,0\lori $2,$1,1\lsw $2,0($30)\lor $29,$30,$0\llw $30,20($29)\laddiu $29,$29,24\ljr $31\ladd $0,$0,$0\l"] ;
+BB3 -> EXIT  [style = filled, label = ""];

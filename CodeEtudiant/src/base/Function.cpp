@@ -285,13 +285,18 @@ void Function::comput_succ_pred_BB(){
 
   int i = 0;
   for(i = 0; i < nbBB; i++){
+
   	current = get_BB(i);
     instr = dynamic_cast <Instruction *>(current->get_branch());
     if(instr){
+      cout << i << endl;
       if(instr->is_cond_branch()){
-        current->set_link_succ_pred(find_label_BB(instr->get_op_label()));
+        if(instr->get_op_label() != NULL){
+          current->set_link_succ_pred(find_label_BB(instr->get_op_label()));
+        }
         current->set_link_succ_pred(get_BB(i+1));
       }else if(instr->is_call()){
+
         current->set_link_succ_pred(get_BB(i+1));
       }else if(!instr->is_indirect_branch()){
       	current->set_link_succ_pred(find_label_BB(instr->get_op_label()));
@@ -391,7 +396,7 @@ void Function::compute_dom(){
             }
             if( !noDomination){
               if(!current->Domin[p1->get_index()]){
-                
+
                 for(int j=0; j<nbBB; j++){
                   current->Domin[j] = p1->Domin[j];
                 }

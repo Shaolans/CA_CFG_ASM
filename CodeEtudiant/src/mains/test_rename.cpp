@@ -56,7 +56,6 @@ int main(int argc, char * argv[]){
 	   functmp->comput_label();
 	   // determination des liens entre les BB
 	   functmp->comput_succ_pred_BB();
-
 	   // production d'un fichier .dot pour le CFG de la fonction
 	   oss=new std::ostringstream;
 	   (*oss)<<"./tmp/"<< name << "_cfg_func_" << i<<".dot";
