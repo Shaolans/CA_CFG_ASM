@@ -342,15 +342,30 @@ Cela correspond à un simple parcours, tout registres i qui verifie i $\notin$ \
     \hline
 \end{tabular}
 \paragraph*{}
-Nous avons lancés les algorithmes de renommage et de réordonnancement et analysés le temps d'éxecution ci-dessus. Nous nous sommes basés sur deux types de code, un code court (dep\_inst3.s) et un code beaucoup plus long (aes\_00.s) afin d'observer la variation suivant la taille du code. \\
+Nous avons lancé les algorithmes de renommage et de ré-ordonnancement et analysé le temps d'exécution ci-dessus. Nous nous sommes basés sur deux types de code, un code court (dep\_inst3.s) et un code beaucoup plus long (aes\_00.s) afin d'observer la variation suivant la taille du code. \\
 
 Nous pouvons observer dans les résultats du fichier de dep\_inst3.s qu'il y a des cas de gains de cycles en réordonnançant ou lorsqu'il y a renommage. Mais dans la moitié des cas il n'y aucun gain, aucune perte. \\
-Cependant, dans les résultats du fichier aes\_00.s, nous pouvons observer qu'il y a des cas de perte en temps de cycle lorsqu'il y n'y a uniquement que du réordonnancemennt. A contrario nous n'observons pour le renommage seulement au pire aucun gains d'autant que les gains s'il y en a, sont meilleurs que celui du réordonnancement seul. \\
-Malgré tout nous pouvons observer de très bonne performance avec le couplage du renommage suivi de réordonnancement, les gains peuvent jusqu'à doubler en terme de gains de cycles. \\
-Par exemple, aes\_00.s/f7bb1 nous passons d'un nombre de cycle de 52 à 39, soit un gain de 25\%.
-De manière générale nous pouvons observer que les codes court (~10 instructions) ont un gains < 10\%, les codes moyens (~40-50 instructions) ont un gains de 25\% et les codes longs (> 100 instructions) ont un gains de ~10\%.
+Cependant, dans les résultats du fichier aes\_00.s, nous pouvons observer qu'il y a des cas de perte en temps de cycle lorsqu'il y n'y a uniquement que du ré-ordonnancement. A contrario nous n'observons pour le renommage seulement au pire aucun gains d'autant que les gains s'il y en a, sont meilleurs que celui du ré-ordonnancement seul. \\
+Malgré tout nous pouvons observer de très bonnes performances avec le couplage du renommage et du ré-ordonnancement, les gains peuvent jusqu'à doubler en terme de gains de cycles. \\
+Par exemple, aes\_00.s/f7bb1 nous passons d'un nombre de cycles de 52 à 39, soit un gain de 25\%.
+De manière générale nous pouvons observer que les codes courts (~10 instructions) ont un gain < 10\%, les codes moyens (~40-50 instructions) ont un gain de 25\% et les codes longs (> 100 instructions) ont un gain de ~10\%. \\
+
+Cependant, nous avons remarqué qu'en utilisant des délais plus importants, le résultat obtenu avec le couplage du renommage et du ré-ordonnancement montre un gain considérable en terme de cycles comparé aux résultats obtenus avec le renommage seul et avec le ré-ordonnancement seul. En effet, voici les résultats obtenus sur le fichier aes\_00.s : \\
+
+\begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Taux de gain & origine & ré-ordonnancement & renommage & renommage + ré-ord \\
+    \hline
+    nb\_cycles & 3725 & 3688 & 3448 & 3014 \\
+    \hline
+    gain de cycles & 0\% & < 1\% & 7.5\% & 19\% \\
+    \hline
+\end{tabular}
+\\ \\
+Le fichier de test, test\_rename.cpp permet affiche à la fin de l'exécution les gains de cycles.
+
 \chapter{Conclusion}
 \paragraph*{}
-L'analyse et l'étude du code assembleur MIPS32 nous a permis d'optimiser le temps d'éxecution en nombre de cycle du programme. Nous avons pu observer expérimentalement qu'il est très souhaitable de coupler le renommage et le réordonnancement plutôt que de les séparer, les gains ne sont pas négligeables.
-Ces types d'analyses ont tout interêt à être implantés dans les compilateurs tant le gains est non négligeables et le temps d'éxecution relativement faible (par exemple le aes\_00.s contient 2000 lignes de codes et s'exécute en un faible délai).
+L'analyse et l'étude du code assembleur MIPS32 nous a permis d'optimiser le temps d'exécution en nombre de cycles du programme. Nous avons pu observer expérimentalement qu'il est très souhaitable de coupler le renommage et le ré-ordonnancement plutôt que de les séparer, les gains ne sont pas négligeables.
+Ces types d'analyses ont tout intérêt à être implantés dans les compilateurs tant le gain est non négligeable et le temps d'exécution relativement faible (par exemple le aes\_00.s contient 2000 lignes de codes et s'exécute en un faible délai).
 \end{document}

@@ -1,9 +1,9 @@
 digraph G1 {
 node [shape = ellipse];
 i0 [label = "addiu $29,$29,65496"] ;
-i0 ->  i1 [label= "RAW_1"];
-i0 ->  i2 [label= "RAW_1"];
-i0 ->  i3 [label= "RAW_1"];
+i0 ->  i1 [label= "RAW_2"];
+i0 ->  i2 [label= "RAW_2"];
+i0 ->  i3 [label= "RAW_2"];
 i1 [label = "sw $31,36($29)"] ;
 i1 ->  i4 [label= "MEM"];
 i1 ->  i5 [label= "MEM"];
@@ -25,12 +25,12 @@ i2 ->  i5 [label= "MEM"];
 i2 ->  i8 [label= "MEM"];
 i2 ->  i9 [label= "MEM"];
 i3 [label = "or $30,$29,$0"] ;
-i3 ->  i4 [label= "RAW_1"];
-i3 ->  i5 [label= "RAW_1"];
-i3 ->  i8 [label= "RAW_1"];
-i3 ->  i9 [label= "RAW_1"];
+i3 ->  i4 [label= "RAW_2"];
+i3 ->  i5 [label= "RAW_2"];
+i3 ->  i8 [label= "RAW_2"];
+i3 ->  i9 [label= "RAW_2"];
 i6 [label = "lui $1,0"] ;
-i6 ->  i7 [label= "RAW_1"];
+i6 ->  i7 [label= "RAW_2"];
 i7 [label = "ori $2,$1,1"] ;
-i7 ->  i8 [label= "RAW_1"];
+i7 ->  i8 [label= "RAW_2"];
 }

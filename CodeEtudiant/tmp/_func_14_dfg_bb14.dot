@@ -1,14 +1,14 @@
 digraph G1 {
 node [shape = ellipse];
 i0 [label = "or $29,$30,$0"] ;
-i0 ->  i1 [label= "RAW_1"];
-i0 ->  i2 [label= "RAW_1"];
+i0 ->  i1 [label= "RAW_2"];
+i0 ->  i2 [label= "RAW_2"];
 i0 ->  i2 [label= "WAR"];
-i0 ->  i3 [label= "RAW_1"];
+i0 ->  i3 [label= "RAW_2"];
 i0 ->  i3 [label= "WAW"];
 i1 [label = "lw $31,28($29)"] ;
 i1 ->  i3 [label= "WAR"];
-i1 ->  i4 [label= "RAW_3"];
+i1 ->  i4 [label= "RAW_4"];
 i3 [label = "addiu $29,$29,32"] ;
 i3 ->  i4 [label= "control"];
 i4 [label = "jr $31"] ;

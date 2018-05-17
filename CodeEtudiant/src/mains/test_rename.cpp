@@ -41,6 +41,10 @@ int main(int argc, char * argv[]){
 	Cfg *c;
 
 	std::ostringstream *oss ;
+	int origine = 0;
+	int reord = 0;
+	int renommage = 0;
+	int reordandrenommage = 0;
 
 	//traitement pour toutes les fonction
 	for(itfct=prog.function_list_begin(), i=0;
@@ -86,6 +90,7 @@ int main(int argc, char * argv[]){
 
 	      /**************** CALCUL NB CYCLES *********************/
 	      //affichage du nb de cycle pour l'execution du BB
+				origine += bb->nb_cycles();
 	      cout<<"---nb_cycles : "<<bb->nb_cycles()<<"-----------"<<endl;
 
 	      // creation du DAG de d�pendance associ� au BB
@@ -121,6 +126,7 @@ int main(int argc, char * argv[]){
 	       bb->display();
 
 	      // recalcul du nb de cycle apr�s scheduling
+				 reord += bb->nb_cycles();
 	       cout<<"---nb_cycles : "<<bb->nb_cycles()<<"-----------"<<endl;
 
 
@@ -152,7 +158,7 @@ int main(int argc, char * argv[]){
 	      // il faut annuler le calcul des d�pendances et le refaire
 	      bb->reset_pred_succ_dep();
 	      bb->comput_pred_succ_dep();
-
+				renommage += bb->nb_cycles();
 	      cout<<"---nb_cycles--"<<bb->nb_cycles()<<"-----------"<<endl;
 
 	      d= new Dfg(bb);
@@ -177,12 +183,17 @@ int main(int argc, char * argv[]){
 	      bb->display();
 
 	      // nombre de cycles du BB apr�s renommage et scheduling
+				reordandrenommage += bb->nb_cycles();
 	      cout<<"----nb_cycles--"<<bb->nb_cycles()<<"-----------"<<endl;
 	      //return 0;
 	   }
 	}
 
-
+	cout << "----- NB CYCLES -----" << endl;
+	cout << "origine : " << origine << endl;
+	cout << "réordonnancement : " << reord << endl;
+	cout << "renommage : " << renommage << endl;
+	cout << "renommage + réordonnancement : " << reordandrenommage << endl;
 
 
 

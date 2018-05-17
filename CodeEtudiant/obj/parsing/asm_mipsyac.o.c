@@ -18053,11 +18053,11 @@ enum t_Dep {NONE, RAW, WAR, WAW, MEMDEP, CONTROL};
 
 
  enum t_Src_Dst {Src,Dst,CopSrc,CopDst} ;
-# 186 "include/Enum_type.h"
+# 208 "include/Enum_type.h"
 static int t_delay[5][5]={
-   {1,1,2,-1,-1},
    {2,2,3,-1,-1},
-   {1,1,2,-1,-1},
+   {3,3,4,-1,-1},
+   {2,2,3,-1,-1},
    {-1,-1,-1,-1,-1},
    {-1,-1,-1,-1,-1}
 };

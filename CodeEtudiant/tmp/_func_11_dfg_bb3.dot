@@ -4,9 +4,9 @@ i0 [label = "add $0,$0,$0"] ;
 i0 ->  i4 [label= "control"];
 i4 [label = "j $l50"] ;
 i1 [label = "lui $1,0"] ;
-i1 ->  i2 [label= "RAW_1"];
+i1 ->  i2 [label= "RAW_2"];
 i2 [label = "ori $2,$1,8"] ;
-i2 ->  i3 [label= "RAW_1"];
+i2 ->  i3 [label= "RAW_2"];
 i3 [label = "sw $2,24($30)"] ;
 i3 ->  i4 [label= "control"];
 }
