@@ -1,7 +1,0 @@
-digraph G1 {
-node [shape = ellipse];
-i0 [label = "lbu $2,20($30)"] ;
-i0 ->  i1 [label= "RAW_4"];
-i0 ->  i1 [label= "WAW"];
-i1 [label = "beqz $2,$2,32"] ;
-}

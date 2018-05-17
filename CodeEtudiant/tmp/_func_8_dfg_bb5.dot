@@ -1,6 +1,0 @@
-digraph G1 {
-node [shape = ellipse];
-i0 [label = "or $4,$2,$0"] ;
-i0 ->  i1 [label= "control"];
-i1 [label = "jal rj_xtime"] ;
-}

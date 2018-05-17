@@ -1,8 +1,0 @@
-digraph G1 {
-node [shape = ellipse];
-i0 [label = "addiu $2,$30,92"] ;
-i0 ->  i1 [label= "RAW_2"];
-i1 [label = "or $4,$2,$0"] ;
-i1 ->  i2 [label= "control"];
-i2 [label = "jal aes256_done"] ;
-}
